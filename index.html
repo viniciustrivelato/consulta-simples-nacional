@@ -197,7 +197,7 @@
   }
   table{
     width:100%;
-    min-width:640px;
+    min-width:760px;
     border-collapse:collapse;
     font-size:13.5px;
   }
@@ -286,6 +286,7 @@
   .copy-btn.copied{ border-color:var(--green); color:var(--green); }
   .razao{ font-weight:600; }
   .sit{ font-size:12px; color:var(--ink-soft); }
+  .date-sub{ font-size:11px; color:var(--ink-soft); margin-top:3px; }
   .err-row td{ color:var(--red); font-style:italic; }
   .summary{
     margin-top:18px;
@@ -504,18 +505,41 @@ async function consultarCnpj(digits){
     const simples = data.opcao_pelo_simples === true;
     const simplesInfo = data.opcao_pelo_simples === null || data.opcao_pelo_simples === undefined;
     const mei = data.opcao_pelo_mei === true;
+    const dataOpcaoSimples = data.data_opcao_pelo_simples || null;
+    const dataExclusaoSimples = data.data_exclusao_do_simples || null;
     return {
       cnpj: digits,
       razao_social: data.razao_social || '—',
       situacao: data.descricao_situacao_cadastral || '—',
       simples: simples,
       simplesInfo: simplesInfo,
-      mei: mei
+      mei: mei,
+      dataOpcaoSimples: dataOpcaoSimples,
+      dataExclusaoSimples: dataExclusaoSimples
     };
   }catch(e){
     const msg = (e && e.message) ? e.message : 'erro desconhecido';
     return { cnpj: digits, error: 'Falha de conexão (' + msg + '). Confira sua internet e tente novamente.' };
   }
+}
+
+function formatDateBR(iso){
+  if(!iso) return null;
+  const partes = String(iso).split('-');
+  if(partes.length !== 3) return iso;
+  return partes[2] + '/' + partes[1] + '/' + partes[0];
+}
+
+function situacaoSimplesCell(r){
+  if(r.simplesInfo) return '<span class="date-sub">—</span>';
+  if(r.simples){
+    return r.dataOpcaoSimples
+      ? '<span class="date-sub">optante desde ' + formatDateBR(r.dataOpcaoSimples) + '</span>'
+      : '<span class="date-sub">—</span>';
+  }
+  return r.dataExclusaoSimples
+    ? '<span class="reten reter">excluído em ' + formatDateBR(r.dataExclusaoSimples) + '</span>'
+    : '<span class="date-sub">nunca optou</span>';
 }
 
 function badgeSimNao(val, unknown){
@@ -542,9 +566,11 @@ function renderResults(results){
   const errorCount = results.filter(r => r.error).length;
   const retemCount = results.filter(r => categoryOf(r) === 'retem').length;
   const verificarCount = results.filter(r => categoryOf(r) === 'verificar').length;
+  const desenquadradoCount = results.filter(r => !r.error && r.dataExclusaoSimples).length;
 
-  if(!['all','retem','nao-retem','verificar','erro'].includes(currentFilter)) currentFilter = 'all';
+  if(!['all','retem','nao-retem','verificar','erro','desenquadrado'].includes(currentFilter)) currentFilter = 'all';
   if(currentFilter === 'erro' && errorCount === 0) currentFilter = 'all';
+  if(currentFilter === 'desenquadrado' && desenquadradoCount === 0) currentFilter = 'all';
 
   const filtros = [
     { key: 'all', label: 'Todos', count: results.length },
@@ -552,6 +578,7 @@ function renderResults(results){
     { key: 'retem', label: 'Retém', count: retemCount },
     { key: 'verificar', label: 'Verificar manualmente', count: verificarCount },
   ];
+  if(desenquadradoCount > 0) filtros.push({ key: 'desenquadrado', label: 'Desenquadrados', count: desenquadradoCount });
   if(errorCount > 0) filtros.push({ key: 'erro', label: 'Erros', count: errorCount });
 
   let html = '<div class="filter-bar">';
@@ -561,26 +588,31 @@ function renderResults(results){
   }
   html += '</div>';
 
-  const visiveis = results.filter(r => currentFilter === 'all' || categoryOf(r) === currentFilter);
+  const visiveis = results.filter(r => {
+    if(currentFilter === 'all') return true;
+    if(currentFilter === 'desenquadrado') return !r.error && !!r.dataExclusaoSimples;
+    return categoryOf(r) === currentFilter;
+  });
 
   html += '<div class="table-wrap"><table><thead><tr>' +
-    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>MEI</th><th>Retenção IRRF/CSRF</th>' +
+    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>Situação no Simples Nacional</th><th>MEI</th><th>Retenção IRRF/CSRF</th>' +
     '</tr></thead><tbody>';
 
   if(visiveis.length === 0){
-    html += '<tr><td colspan="5" style="color:var(--ink-soft);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
+    html += '<tr><td colspan="6" style="color:var(--ink-soft);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
   }
 
   for(const r of visiveis){
     if(r.error){
       html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
-        '<td colspan="4">' + r.error + '</td></tr>';
+        '<td colspan="5">' + r.error + '</td></tr>';
       continue;
     }
     html += '<tr>' +
       '<td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
       '<td><div class="razao">' + r.razao_social + '</div><div class="sit">' + r.situacao + '</div></td>' +
       '<td>' + badgeSimNao(r.simples, r.simplesInfo) + '</td>' +
+      '<td>' + situacaoSimplesCell(r) + '</td>' +
       '<td>' + badgeSimNao(r.mei, false) + '</td>' +
       '<td>' + retencaoLabel(r) + '</td>' +
       '</tr>';
@@ -656,11 +688,11 @@ async function retrySomenteErros(){
 }
 
 function toCsv(results){
-  const header = ['CNPJ', 'Razao Social', 'Situacao Cadastral', 'Optante Simples Nacional', 'Optante MEI', 'Retencao IRRF/CSRF'];
+  const header = ['CNPJ', 'Razao Social', 'Situacao Cadastral', 'Optante Simples Nacional', 'Data Opcao Simples', 'Data Exclusao Simples', 'Optante MEI', 'Retencao IRRF/CSRF'];
   const rows = [header.join(';')];
   for(const r of results){
     if(r.error){
-      rows.push([formatCnpj(r.cnpj), '', '', '', '', 'ERRO: ' + r.error].join(';'));
+      rows.push([formatCnpj(r.cnpj), '', '', '', '', '', '', 'ERRO: ' + r.error].join(';'));
       continue;
     }
     const dispensa = r.simplesInfo ? 'Verificar manualmente' : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
@@ -669,6 +701,8 @@ function toCsv(results){
       '"' + (r.razao_social || '').replace(/"/g,'""') + '"',
       r.situacao || '',
       r.simplesInfo ? 'Nao informado' : (r.simples ? 'Sim' : 'Nao'),
+      formatDateBR(r.dataOpcaoSimples) || '',
+      formatDateBR(r.dataExclusaoSimples) || '',
       r.mei ? 'Sim' : 'Nao',
       dispensa
     ].join(';'));
