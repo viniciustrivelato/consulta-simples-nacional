@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta Simples Nacional — Retenção IRRF/CSRF</title>
+<style>
+  :root{
+    --paper: #FAFAF6;
+    --paper-line: #E4E0D6;
+    --ink: #1B2A44;
+    --ink-soft: #4C5A72;
+    --gold: #A9803F;
+    --gold-soft: #F1E8D6;
+    --green: #2E6A4E;
+    --green-bg: #E7F1EA;
+    --red: #A6432E;
+    --red-bg: #F6E7E2;
+    --amber: #8A6A1E;
+    --amber-bg: #FBF1DA;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    padding:32px 20px 80px;
+  }
+  .sheet{
+    max-width:980px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--paper-line);
+    box-shadow:0 1px 3px rgba(27,42,68,0.06), 0 8px 24px rgba(27,42,68,0.04);
+  }
+  .letterhead{
+    padding:28px 36px 22px;
+    border-bottom:3px double var(--ink);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .letterhead h1{
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 4px;
+    letter-spacing:0.2px;
+  }
+  .letterhead p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:13.5px;
+  }
+  .stamp{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:var(--gold);
+    border:1px solid var(--gold);
+    padding:6px 10px;
+    white-space:nowrap;
+  }
+  .page-credit{
+    max-width:980px;
+    margin:14px auto 0;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.3px;
+  }
+  .body-pad{ padding:28px 36px 36px; }
+  .field-label{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+    display:block;
+  }
+  textarea{
+    width:100%;
+    min-height:130px;
+    resize:vertical;
+    font-family:var(--mono);
+    font-size:14px;
+    padding:14px;
+    border:1px solid var(--paper-line);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+  }
+  textarea:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .hint{ font-size:12.5px; color:var(--ink-soft); margin-top:6px; }
+  .upload-row{ margin-top:18px; }
+  .upload-divider{
+    display:flex; align-items:center; gap:10px;
+    margin:16px 0 12px;
+    color:var(--ink-soft);
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .upload-divider::before, .upload-divider::after{
+    content:''; flex:1; height:1px; background:var(--paper-line);
+  }
+  .upload-box{
+    display:block;
+    border:1px dashed var(--ink-soft);
+    background:var(--paper);
+    padding:16px 18px;
+    cursor:pointer;
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .upload-box:hover{ border-color:var(--gold); background:var(--gold-soft); }
+  .upload-title{
+    display:block;
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink);
+  }
+  .upload-sub{
+    display:block;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+  .file-status{
+    margin-top:10px;
+    font-size:13px;
+    font-family:var(--mono);
+  }
+  .file-status.ok{ color:var(--green); }
+  .file-status.warn{ color:var(--red); }
+  .actions{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14.5px;
+    font-weight:600;
+    padding:11px 22px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:0.2px;
+  }
+  button:hover{ background:#2A3D5E; }
+  button:disabled{ opacity:0.45; cursor:not-allowed; }
+  button.secondary{
+    background:#fff; color:var(--ink); border:1px solid var(--ink-soft);
+  }
+  button.secondary:hover{ background:var(--paper); }
+  .progress-wrap{
+    display:none;
+    align-items:center;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .progress-bar{
+    width:160px; height:6px; background:var(--paper-line); position:relative; overflow:hidden;
+  }
+  .progress-fill{
+    position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--gold); transition:width 0.2s;
+  }
+  .note{
+    margin-top:22px;
+    background:var(--amber-bg);
+    border-left:3px solid var(--amber);
+    padding:12px 16px;
+    font-size:13px;
+    color:#5C4712;
+    line-height:1.6;
+  }
+  .note strong{ color:#4A3A0E; }
+  .table-wrap{
+    margin-top:24px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    width:100%;
+    min-width:640px;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  .filter-bar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:20px;
+  }
+  .filter-btn{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    padding:7px 13px;
+    border:1px solid var(--paper-line);
+    background:#fff;
+    color:var(--ink-soft);
+    cursor:pointer;
+    letter-spacing:0.2px;
+  }
+  .filter-btn:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .filter-btn.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .retry-btn{
+    font-family:var(--sans);
+    font-size:13px;
+    font-weight:600;
+    padding:8px 16px;
+    border:1px solid var(--red);
+    background:#fff;
+    color:var(--red);
+    cursor:pointer;
+    margin-top:14px;
+  }
+  .retry-btn:hover{ background:var(--red-bg); }
+  .retry-btn:disabled{ opacity:0.45; cursor:not-allowed; }
+  thead th{
+    text-align:left;
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.8px;
+    color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);
+    padding:10px 10px;
+  }
+  tbody td{
+    padding:12px 10px;
+    border-bottom:1px solid var(--paper-line);
+    vertical-align:top;
+  }
+  tbody tr:hover{ background:#FBFAF7; }
+  .cnpj-cell{ font-family:var(--mono); white-space:nowrap; }
+  .badge{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .badge.sim{ background:var(--green-bg); color:var(--green); }
+  .badge.nao{ background:var(--red-bg); color:var(--red); }
+  .badge.na{ background:var(--paper-line); color:var(--ink-soft); }
+  .reten{
+    font-weight:700;
+  }
+  .reten.nao-reter{ color:var(--green); }
+  .reten.reter{ color:var(--red); }
+  .copy-btn{
+    display:block;
+    margin-top:6px;
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    padding:3px 8px;
+    border:1px solid var(--ink-soft);
+    background:#fff;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .copy-btn:hover{ border-color:var(--gold); color:var(--gold); }
+  .copy-btn.copied{ border-color:var(--green); color:var(--green); }
+  .razao{ font-weight:600; }
+  .sit{ font-size:12px; color:var(--ink-soft); }
+  .err-row td{ color:var(--red); font-style:italic; }
+  .summary{
+    margin-top:18px;
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .summary b{ color:var(--ink); }
+  .footer-note{
+    margin-top:28px;
+    padding-top:16px;
+    border-top:1px solid var(--paper-line);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  @media (max-width:640px){
+    .letterhead{ padding:20px 18px 16px; }
+    .body-pad{ padding:20px 18px 28px; }
+    table{ font-size:12px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="letterhead">
+    <div>
+      <h1>Consulta de Optantes — Simples Nacional</h1>
+      <p>Verificação em lote para dispensa de retenção de IRRF / CSRF (PIS·COFINS·CSLL)</p>
+    </div>
+    <div class="stamp">uso interno · fiscal</div>
+  </div>
+
+
+  <div class="body-pad">
+    <label class="field-label" for="cnpjInput">CNPJs a consultar (um por linha, com ou sem pontuação)</label>
+    <textarea id="cnpjInput" placeholder="11.222.333/0001-81&#10;00000000000191&#10;12345678000199"></textarea>
+    <div class="hint">Aceita CNPJ formatado ou só números. Linhas em branco são ignoradas. Fonte: CNPJ público (Receita Federal) via BrasilAPI.</div>
+
+    <div class="upload-row">
+      <div class="upload-divider"><span>ou</span></div>
+      <label class="upload-box" for="fileInput">
+        <span class="upload-title">Enviar planilha (.xlsx, .xls ou .csv)</span>
+        <span class="upload-sub">Os CNPJs de todas as células são detectados automaticamente e somados à lista acima</span>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;">
+      </label>
+      <div id="fileStatus" class="file-status"></div>
+    </div>
+
+    <div class="actions">
+      <button id="consultarBtn">Consultar CNPJs</button>
+      <button id="exportBtn" class="secondary" disabled>Exportar CSV</button>
+      <div class="progress-wrap" id="progressWrap">
+        <span id="progressText">0 / 0</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Regra geral:</strong> empresas optantes pelo Simples Nacional (e MEI) não sofrem retenção de IRRF, PIS, COFINS e CSLL sobre serviços prestados a pessoa jurídica (IN RFB 1.234/2012, art. 4º, XI). <strong>Atenção:</strong> serviços de limpeza/conservação, segurança/vigilância e locação de mão de obra têm regras específicas de retenção de CSRF que podem se aplicar independente do regime — confira o tipo de serviço antes de dispensar a retenção nesses casos.
+    </div>
+
+    <div id="resultsArea"></div>
+  </div>
+</div>
+
+<div class="page-credit">Desenvolvido por Vinicius Trivelato de Oliveira</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const consultarBtn = document.getElementById('consultarBtn');
+const exportBtn = document.getElementById('exportBtn');
+const cnpjInput = document.getElementById('cnpjInput');
+const resultsArea = document.getElementById('resultsArea');
+const progressWrap = document.getElementById('progressWrap');
+const progressText = document.getElementById('progressText');
+const progressFill = document.getElementById('progressFill');
+
+let lastResults = [];
+let currentFilter = 'all';
+
+function categoryOf(r){
+  if(r.error) return 'erro';
+  if(r.simplesInfo) return 'verificar';
+  return (r.simples || r.mei) ? 'nao-retem' : 'retem';
+}
+
+function onlyDigits(s){ return (s || '').replace(/\D/g, ''); }
+
+// Validação oficial do dígito verificador do CNPJ (módulo 11)
+function cnpjValido(digits){
+  if(digits.length !== 14) return false;
+  if(/^(\d)\1{13}$/.test(digits)) return false; // todos os dígitos iguais
+
+  const calcDigito = (base) => {
+    const pesos = base.length === 12
+      ? [5,4,3,2,9,8,7,6,5,4,3,2]
+      : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    let soma = 0;
+    for(let i = 0; i < base.length; i++) soma += parseInt(base[i], 10) * pesos[i];
+    const resto = soma % 11;
+    return resto < 2 ? 0 : 11 - resto;
+  };
+
+  const base12 = digits.slice(0, 12);
+  const d1 = calcDigito(base12);
+  const d2 = calcDigito(base12 + d1);
+  return digits === base12 + String(d1) + String(d2);
+}
+
+function formatCnpj(digits){
+  if(digits.length !== 14) return digits;
+  return digits.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+}
+
+function parseCnpjList(raw){
+  const lines = raw.split(/[\n,;]+/).map(l => onlyDigits(l)).filter(l => l.length > 0);
+  const seen = new Set();
+  const out = [];
+  for(const l of lines){
+    if(l.length === 14 && !seen.has(l)){
+      seen.add(l);
+      out.push(l);
+    } else if(l.length !== 14 && l.length > 0){
+      out.push(l); // keep invalid ones to report as errors
+    }
+  }
+  return out;
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+const fileInput = document.getElementById('fileInput');
+const fileStatus = document.getElementById('fileStatus');
+
+function extractCnpjsFromText(text){
+  const tokens = text.split(/[\s,;|]+/);
+  const found = [];
+  for(let t of tokens){
+    let d = onlyDigits(t);
+    if(d.length === 13) d = '0' + d; // caso comum: Excel/planilha perdeu o zero à esquerda
+    if(d.length === 14) found.push(d);
+  }
+  return [...new Set(found)];
+}
+
+function importCnpjs(list, source){
+  if(list.length === 0){
+    fileStatus.textContent = 'Nenhum CNPJ de 14 dígitos foi encontrado em "' + source + '".';
+    fileStatus.className = 'file-status warn';
+    return;
+  }
+  const existentes = new Set(parseCnpjList(cnpjInput.value).filter(c => c.length === 14));
+  const novos = list.filter(c => !existentes.has(c));
+  const formatted = novos.map(formatCnpj).join('\n');
+  const atual = cnpjInput.value.trim();
+  cnpjInput.value = atual ? atual + '\n' + formatted : formatted;
+
+  const invalidos = list.filter(c => !cnpjValido(c)).length;
+  fileStatus.textContent = novos.length + ' CNPJ(s) importado(s) de "' + source + '"' +
+    (list.length - novos.length > 0 ? ' (' + (list.length - novos.length) + ' já estavam na lista)' : '') +
+    (invalidos > 0 ? ' — atenção: ' + invalidos + ' com dígito verificador inválido, confira a planilha' : '') + '.';
+  fileStatus.className = 'file-status ok';
+}
+
+fileInput.addEventListener('change', async () => {
+  const file = fileInput.files[0];
+  if(!file) return;
+  fileStatus.textContent = 'Lendo arquivo...';
+  fileStatus.className = 'file-status';
+
+  const name = file.name.toLowerCase();
+  try{
+    if(name.endsWith('.csv')){
+      const text = await file.text();
+      importCnpjs(extractCnpjsFromText(text), file.name);
+    } else {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: 'array' });
+      let allText = '';
+      wb.SheetNames.forEach(sheetName => {
+        const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, raw: false, defval: '' });
+        rows.forEach(row => { allText += row.join(' ') + '\n'; });
+      });
+      importCnpjs(extractCnpjsFromText(allText), file.name);
+    }
+  }catch(e){
+    fileStatus.textContent = 'Não foi possível ler o arquivo (' + (e.message || 'erro desconhecido') + '). Confira se é um .xlsx, .xls ou .csv válido.';
+    fileStatus.className = 'file-status warn';
+  }
+  fileInput.value = ''; // permite reenviar o mesmo arquivo depois
+});
+
+async function consultarCnpj(digits){
+  if(digits.length !== 14){
+    return { cnpj: digits, error: 'CNPJ inválido (deve ter 14 dígitos — confira se não faltam zeros à esquerda)' };
+  }
+  if(!cnpjValido(digits)){
+    return { cnpj: digits, error: 'Dígito verificador inválido — confira se o CNPJ foi digitado/copiado corretamente' };
+  }
+  try{
+    const res = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + digits);
+    if(res.status === 404){
+      return { cnpj: digits, error: 'CNPJ não encontrado na base da Receita' };
+    }
+    if(res.status === 400){
+      return { cnpj: digits, error: 'CNPJ rejeitado pela API (HTTP 400) — confira o número na consulta oficial da Receita' };
+    }
+    if(!res.ok){
+      return { cnpj: digits, error: 'Erro na consulta (HTTP ' + res.status + ')' };
+    }
+    const data = await res.json();
+    const simples = data.opcao_pelo_simples === true;
+    const simplesInfo = data.opcao_pelo_simples === null || data.opcao_pelo_simples === undefined;
+    const mei = data.opcao_pelo_mei === true;
+    return {
+      cnpj: digits,
+      razao_social: data.razao_social || '—',
+      situacao: data.descricao_situacao_cadastral || '—',
+      simples: simples,
+      simplesInfo: simplesInfo,
+      mei: mei
+    };
+  }catch(e){
+    const msg = (e && e.message) ? e.message : 'erro desconhecido';
+    return { cnpj: digits, error: 'Falha de conexão (' + msg + '). Confira sua internet e tente novamente.' };
+  }
+}
+
+function badgeSimNao(val, unknown){
+  if(unknown) return '<span class="badge na">Não informado</span>';
+  return val ? '<span class="badge sim">Sim</span>' : '<span class="badge nao">Não</span>';
+}
+
+function retencaoLabel(r){
+  if(r.error) return '—';
+  if(r.simplesInfo){
+    return '<span class="reten">Verificar manualmente</span>' +
+      '<button class="copy-btn" data-cnpj="' + r.cnpj + '" title="Copiar CNPJ para consultar na Receita">Copiar CNPJ</button>';
+  }
+  const dispensa = r.simples || r.mei;
+  return dispensa
+    ? '<span class="reten nao-reter">Não retém</span>'
+    : '<span class="reten reter">Retém</span>';
+}
+
+function renderResults(results){
+  lastResults = results;
+  const okCount = results.filter(r => !r.error).length;
+  const simplesCount = results.filter(r => !r.error && (r.simples || r.mei)).length;
+  const errorCount = results.filter(r => r.error).length;
+  const retemCount = results.filter(r => categoryOf(r) === 'retem').length;
+  const verificarCount = results.filter(r => categoryOf(r) === 'verificar').length;
+
+  if(!['all','retem','nao-retem','verificar','erro'].includes(currentFilter)) currentFilter = 'all';
+  if(currentFilter === 'erro' && errorCount === 0) currentFilter = 'all';
+
+  const filtros = [
+    { key: 'all', label: 'Todos', count: results.length },
+    { key: 'nao-retem', label: 'Não retém', count: simplesCount },
+    { key: 'retem', label: 'Retém', count: retemCount },
+    { key: 'verificar', label: 'Verificar manualmente', count: verificarCount },
+  ];
+  if(errorCount > 0) filtros.push({ key: 'erro', label: 'Erros', count: errorCount });
+
+  let html = '<div class="filter-bar">';
+  for(const f of filtros){
+    html += '<button type="button" class="filter-btn' + (currentFilter === f.key ? ' active' : '') + '" data-filter="' + f.key + '">' +
+      f.label + ' (' + f.count + ')</button>';
+  }
+  html += '</div>';
+
+  const visiveis = results.filter(r => currentFilter === 'all' || categoryOf(r) === currentFilter);
+
+  html += '<div class="table-wrap"><table><thead><tr>' +
+    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>MEI</th><th>Retenção IRRF/CSRF</th>' +
+    '</tr></thead><tbody>';
+
+  if(visiveis.length === 0){
+    html += '<tr><td colspan="5" style="color:var(--ink-soft);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
+  }
+
+  for(const r of visiveis){
+    if(r.error){
+      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
+        '<td colspan="4">' + r.error + '</td></tr>';
+      continue;
+    }
+    html += '<tr>' +
+      '<td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
+      '<td><div class="razao">' + r.razao_social + '</div><div class="sit">' + r.situacao + '</div></td>' +
+      '<td>' + badgeSimNao(r.simples, r.simplesInfo) + '</td>' +
+      '<td>' + badgeSimNao(r.mei, false) + '</td>' +
+      '<td>' + retencaoLabel(r) + '</td>' +
+      '</tr>';
+  }
+  html += '</tbody></table></div>';
+
+  html += '<div class="summary">' +
+    '<span><b>' + results.length + '</b> consultados</span>' +
+    '<span><b>' + okCount + '</b> encontrados</span>' +
+    '<span><b>' + simplesCount + '</b> dispensam retenção</span>' +
+    (errorCount ? '<span><b>' + errorCount + '</b> com erro</span>' : '') +
+    '</div>';
+
+  if(errorCount > 0){
+    html += '<button type="button" class="retry-btn" id="retryBtn">Tentar novamente (' + errorCount + ' com erro)</button>';
+  }
+
+  html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI — essa base é atualizada periodicamente e não é a mesma consultada em tempo real pelo site oficial do Simples Nacional. Quando aparece <b>"Não informado"</b>, significa que essa base pública não tem um registro de opção/exclusão do Simples para aquele CNPJ — isso pode acontecer mesmo em empresas ativas normais, não só em casos como empresas não elegíveis, condomínios, comitês eleitorais ou CNPJs baixados. Nesses casos, confirme no site oficial do Simples Nacional (gov.br) antes de deixar de reter.</div>';
+
+  resultsArea.innerHTML = html;
+  exportBtn.disabled = okCount === 0;
+}
+
+resultsArea.addEventListener('click', (e) => {
+  const copyBtn = e.target.closest('.copy-btn');
+  if(copyBtn){
+    const cnpj = formatCnpj(copyBtn.getAttribute('data-cnpj'));
+    navigator.clipboard.writeText(cnpj).then(() => {
+      copyBtn.textContent = 'Copiado!';
+      copyBtn.classList.add('copied');
+      setTimeout(() => { copyBtn.textContent = 'Copiar CNPJ'; copyBtn.classList.remove('copied'); }, 1500);
+    }).catch(() => {
+      copyBtn.textContent = 'Erro ao copiar';
+    });
+    return;
+  }
+
+  const filterBtn = e.target.closest('.filter-btn');
+  if(filterBtn){
+    currentFilter = filterBtn.getAttribute('data-filter');
+    renderResults(lastResults);
+    return;
+  }
+
+  const retryBtn = e.target.closest('#retryBtn');
+  if(retryBtn){
+    retrySomenteErros();
+    return;
+  }
+});
+
+async function retrySomenteErros(){
+  const indices = lastResults.map((r, i) => r.error ? i : -1).filter(i => i !== -1);
+  if(indices.length === 0) return;
+
+  consultarBtn.disabled = true;
+  exportBtn.disabled = true;
+  progressWrap.style.display = 'flex';
+  progressText.textContent = '0 / ' + indices.length;
+  progressFill.style.width = '0%';
+
+  for(let k = 0; k < indices.length; k++){
+    const i = indices[k];
+    lastResults[i] = await consultarCnpj(lastResults[i].cnpj);
+    progressText.textContent = (k + 1) + ' / ' + indices.length;
+    progressFill.style.width = Math.round(((k + 1) / indices.length) * 100) + '%';
+    renderResults(lastResults);
+    if(k < indices.length - 1) await sleep(350);
+  }
+
+  progressWrap.style.display = 'none';
+  consultarBtn.disabled = false;
+}
+
+function toCsv(results){
+  const header = ['CNPJ', 'Razao Social', 'Situacao Cadastral', 'Optante Simples Nacional', 'Optante MEI', 'Retencao IRRF/CSRF'];
+  const rows = [header.join(';')];
+  for(const r of results){
+    if(r.error){
+      rows.push([formatCnpj(r.cnpj), '', '', '', '', 'ERRO: ' + r.error].join(';'));
+      continue;
+    }
+    const dispensa = r.simplesInfo ? 'Verificar manualmente' : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
+    rows.push([
+      formatCnpj(r.cnpj),
+      '"' + (r.razao_social || '').replace(/"/g,'""') + '"',
+      r.situacao || '',
+      r.simplesInfo ? 'Nao informado' : (r.simples ? 'Sim' : 'Nao'),
+      r.mei ? 'Sim' : 'Nao',
+      dispensa
+    ].join(';'));
+  }
+  return rows.join('\n');
+}
+
+consultarBtn.addEventListener('click', async () => {
+  const list = parseCnpjList(cnpjInput.value);
+  if(list.length === 0){
+    resultsArea.innerHTML = '<div class="note" style="background:var(--red-bg);border-left-color:var(--red);color:#5C1F12;">Cole ao menos um CNPJ para consultar.</div>';
+    return;
+  }
+
+  consultarBtn.disabled = true;
+  exportBtn.disabled = true;
+  resultsArea.innerHTML = '';
+  progressWrap.style.display = 'flex';
+  progressText.textContent = '0 / ' + list.length;
+  progressFill.style.width = '0%';
+
+  const results = [];
+  for(let i = 0; i < list.length; i++){
+    const r = await consultarCnpj(list[i]);
+    results.push(r);
+    progressText.textContent = (i + 1) + ' / ' + list.length;
+    progressFill.style.width = Math.round(((i + 1) / list.length) * 100) + '%';
+    renderResults(results);
+    if(i < list.length - 1) await sleep(350); // gentle pacing to avoid throttling
+  }
+
+  progressWrap.style.display = 'none';
+  consultarBtn.disabled = false;
+});
+
+exportBtn.addEventListener('click', () => {
+  const csv = toCsv(lastResults);
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'consulta-simples-nacional-' + stamp + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
