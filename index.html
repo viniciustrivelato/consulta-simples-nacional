@@ -1,362 +1,1024 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consulta Simples Nacional — Retenção IRRF/CSRF</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fiscal Intelligence — V4 Final</title>
 <style>
   :root{
-    --paper: #FAFAF6;
-    --paper-line: #E4E0D6;
-    --ink: #1B2A44;
-    --ink-soft: #4C5A72;
-    --gold: #A9803F;
-    --gold-soft: #F1E8D6;
-    --green: #2E6A4E;
-    --green-bg: #E7F1EA;
-    --red: #A6432E;
-    --red-bg: #F6E7E2;
-    --amber: #8A6A1E;
-    --amber-bg: #FBF1DA;
-    --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-    --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --bg:#F8FAFC;
+    --card:#FFFFFF;
+    --text:#0F172A;
+    --muted:#64748B;
+    --border:#E2E8F0;
+    --navy:#0F172A;
+    --blue:#2563EB;
+    --blue-2:#1D4ED8;
+    --blue-soft:#DBEAFE;
+    --success:#16A34A;
+    --success-bg:#DCFCE7;
+    --danger:#DC2626;
+    --danger-bg:#FEE2E2;
+    --warning:#D97706;
+    --warning-bg:#FEF3C7;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px rgba(15,23,42,.08);
+    --mono:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   }
-  *{box-sizing:border-box;}
+
+  *{box-sizing:border-box}
+  html,body{margin:0}
   body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
     font-family:var(--sans);
-    padding:32px 20px 80px;
+    background:
+      radial-gradient(circle at top left, rgba(37,99,235,.10), transparent 30%),
+      linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+    color:var(--text);
+    padding:24px 16px 48px;
   }
-  .sheet{
-    max-width:980px;
-    margin:0 auto;
-    background:#fff;
-    border:1px solid var(--paper-line);
-    box-shadow:0 1px 3px rgba(27,42,68,0.06), 0 8px 24px rgba(27,42,68,0.04);
+
+  .app{max-width:1240px;margin:0 auto}
+
+  .shell{
+    background:rgba(255,255,255,.78);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(226,232,240,.85);
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
   }
-  .letterhead{
-    padding:28px 36px 22px;
-    border-bottom:3px double var(--ink);
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:12px;
+
+  .hero{
+    padding:28px 28px 24px;
+    background:
+      radial-gradient(circle at top right, rgba(59,130,246,.18), transparent 25%),
+      linear-gradient(135deg, #0F172A 0%, #172554 45%, #1D4ED8 100%);
+    color:#fff;
   }
-  .letterhead h1{
-    font-family:var(--serif);
-    font-size:26px;
-    font-weight:700;
-    margin:0 0 4px;
-    letter-spacing:0.2px;
+
+  .hero-top{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(420px,540px);
+    gap:18px;
+    align-items:stretch;
   }
-  .letterhead p{
-    margin:0;
-    color:var(--ink-soft);
-    font-size:13.5px;
-  }
-  .stamp{
-    font-family:var(--mono);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    color:var(--gold);
-    border:1px solid var(--gold);
-    padding:6px 10px;
-    white-space:nowrap;
-  }
-  .page-credit{
-    max-width:980px;
-    margin:14px auto 0;
-    text-align:center;
-    font-family:var(--mono);
-    font-size:10.5px;
-    color:var(--ink-soft);
-    letter-spacing:0.3px;
-  }
-  .body-pad{ padding:28px 36px 36px; }
-  .field-label{
-    font-family:var(--mono);
-    font-size:11.5px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:var(--ink-soft);
-    margin-bottom:8px;
-    display:block;
-  }
-  textarea{
-    width:100%;
-    min-height:130px;
-    resize:vertical;
-    font-family:var(--mono);
-    font-size:14px;
-    padding:14px;
-    border:1px solid var(--paper-line);
-    background:var(--paper);
-    color:var(--ink);
-    line-height:1.6;
-  }
-  textarea:focus{ outline:2px solid var(--gold); outline-offset:1px; }
-  .hint{ font-size:12.5px; color:var(--ink-soft); margin-top:6px; }
-  .upload-row{ margin-top:18px; }
-  .upload-divider{
-    display:flex; align-items:center; gap:10px;
-    margin:16px 0 12px;
-    color:var(--ink-soft);
-    font-family:var(--mono);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-  }
-  .upload-divider::before, .upload-divider::after{
-    content:''; flex:1; height:1px; background:var(--paper-line);
-  }
-  .upload-box{
-    display:block;
-    border:1px dashed var(--ink-soft);
-    background:var(--paper);
-    padding:16px 18px;
-    cursor:pointer;
-    transition:border-color 0.15s, background 0.15s;
-  }
-  .upload-box:hover{ border-color:var(--gold); background:var(--gold-soft); }
-  .upload-title{
-    display:block;
-    font-weight:700;
-    font-size:14px;
-    color:var(--ink);
-  }
-  .upload-sub{
-    display:block;
+
+  .eyebrow{
     font-size:12px;
-    color:var(--ink-soft);
-    margin-top:3px;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#BFDBFE;
+    margin-bottom:10px;
   }
-  .file-status{
-    margin-top:10px;
+
+  .hero h1{
+    margin:0;
+    font-size:34px;
+    line-height:1.08;
+    letter-spacing:-.03em;
+  }
+
+  .hero p{
+    margin:10px 0 0;
+    max-width:760px;
+    color:#DCEAFE;
+    line-height:1.65;
+    font-size:14px;
+  }
+
+  .chips{
+    margin-top:16px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .chip{
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.10);
+    color:#EFF6FF;
+    border-radius:999px;
+    padding:8px 12px;
+    font-size:12px;
+    font-weight:700;
+  }
+
+  .hero-card{
+    position:relative;
+    min-height:100%;
+    background:linear-gradient(180deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.09) 100%);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:28px;
+    padding:20px 20px 18px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.14),
+      0 16px 30px rgba(15,23,42,.16);
+    overflow:hidden;
+  }
+
+  .hero-card::after{
+    content:'';
+    position:absolute;
+    right:-50px;
+    top:-50px;
+    width:160px;
+    height:160px;
+    background:radial-gradient(circle, rgba(255,255,255,.20), transparent 72%);
+    pointer-events:none;
+  }
+
+  .hero-card .label{
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#D6E6FF;
+    margin-bottom:14px;
+  }
+
+  .hero-card .status{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    font-weight:800;
+    color:#F8FAFC;
+  }
+
+  .hero-card .check{
+    font-size:20px;
+    line-height:1;
+  }
+
+  .hero-card .status-text{
+    font-size:18px;
+    color:#F8FAFC;
+  }
+
+  .hero-card .desc{
+    margin-top:14px;
+    color:#E6EEFF;
     font-size:13px;
-    font-family:var(--mono);
+    line-height:1.65;
+    max-width:95%;
   }
-  .file-status.ok{ color:var(--green); }
-  .file-status.warn{ color:var(--red); }
-  .actions{
+
+  .hero-outcomes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:16px;
+  }
+
+  .hero-pill{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.10);
+    color:#F8FAFC;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.02em;
+  }
+
+  .hero-pill.nao-retem{
+    background:rgba(34,197,94,.16);
+    color:#B8F7CB;
+    border-color:rgba(134,239,172,.30);
+  }
+
+  .hero-pill.retem{
+    background:rgba(239,68,68,.14);
+    color:#FFD1D1;
+    border-color:rgba(252,165,165,.28);
+  }
+
+  .hero-pill.verificar{
+    background:rgba(245,158,11,.14);
+    color:#FFE3A3;
+    border-color:rgba(252,211,77,.26);
+  }
+
+  .hero-flow{
     margin-top:16px;
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:8px;
     flex-wrap:wrap;
   }
-  button{
-    font-family:var(--sans);
-    font-size:14.5px;
-    font-weight:600;
-    padding:11px 22px;
-    border:1px solid var(--ink);
-    background:var(--ink);
-    color:#fff;
+
+  .hero-step{
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.10);
+    color:#F8FAFC;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.02em;
+  }
+
+  .hero-arrow{
+    color:#D8E8FF;
+    font-weight:900;
+    font-size:14px;
+  }
+
+  .content{padding:26px}
+
+  .panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 1px 2px rgba(15,23,42,.03);
+  }
+
+  .section-kicker{
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue);
+    margin-bottom:8px;
+  }
+
+  .section-title{
+    margin:0;
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:-.03em;
+    color:var(--navy);
+  }
+
+  .section-subtitle{
+    margin:8px 0 0;
+    color:var(--muted);
+    line-height:1.65;
+    font-size:14px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(720px,1fr);
+    gap:18px;
+    margin-top:22px;
+    align-items:start;
+  }
+
+  .input-card,.side-card{
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:#fff;
+    padding:18px;
+  }
+
+  .field-label{
+    display:block;
+    margin-bottom:10px;
+    color:var(--navy);
+    font-size:13px;
+    font-weight:800;
+  }
+
+  textarea{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:#F8FAFC;
+    padding:14px 16px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--text);
+    font-family:var(--mono);
+    white-space:pre-wrap;
+    word-break:normal;
+    overflow-wrap:anywhere;
+  }
+
+  textarea:focus{
+    outline:none;
+    border-color:#93C5FD;
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+    background:#fff;
+  }
+
+  .hint{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:12.5px;
+    line-height:1.6;
+  }
+
+  .upload-divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:14px 0 12px;
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-weight:800;
+  }
+
+  .upload-divider::before,.upload-divider::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--border);
+  }
+
+  .upload-box{
+    display:block;
+    border:1.5px dashed #93A7C7;
+    background:linear-gradient(180deg,#F8FAFC 0%, #F0F7FF 100%);
+    border-radius:18px;
+    padding:18px;
     cursor:pointer;
-    letter-spacing:0.2px;
+    transition:.18s ease;
   }
-  button:hover{ background:#2A3D5E; }
-  button:disabled{ opacity:0.45; cursor:not-allowed; }
-  button.secondary{
-    background:#fff; color:var(--ink); border:1px solid var(--ink-soft);
+
+  .upload-box:hover{
+    border-color:var(--blue);
+    background:linear-gradient(180deg,#EFF6FF 0%, #E7F0FF 100%);
   }
-  button.secondary:hover{ background:var(--paper); }
+
+  .upload-title{
+    display:block;
+    color:var(--navy);
+    font-size:14px;
+    font-weight:800;
+  }
+
+  .upload-sub{
+    display:block;
+    margin-top:6px;
+    color:var(--muted);
+    font-size:12.5px;
+    line-height:1.5;
+  }
+
+  .file-status{
+    margin-top:10px;
+    font-size:12.5px;
+    font-family:var(--mono);
+  }
+  .file-status.ok{color:var(--success)}
+  .file-status.warn{color:var(--danger)}
+
+  .actions{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  button{
+    appearance:none;
+    border:none;
+    border-radius:14px;
+    padding:12px 18px;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.18s ease;
+  }
+  button:disabled{opacity:.5;cursor:not-allowed}
+
+  #consultarBtn{
+    background:linear-gradient(135deg,var(--blue),var(--blue-2));
+    color:#fff;
+    box-shadow:0 8px 18px rgba(37,99,235,.25);
+  }
+
+  #consultarBtn:hover:not(:disabled){
+    transform:translateY(-1px);
+    filter:brightness(1.03);
+  }
+
+  #exportBtn{
+    background:#fff;
+    color:var(--navy);
+    border:1px solid var(--border);
+  }
+
+  #exportBtn:hover:not(:disabled){background:#F8FAFC}
+
   .progress-wrap{
     display:none;
     align-items:center;
-    gap:10px;
+    gap:12px;
+    color:var(--muted);
+    font-size:12px;
     font-family:var(--mono);
-    font-size:12.5px;
-    color:var(--ink-soft);
   }
+
   .progress-bar{
-    width:160px; height:6px; background:var(--paper-line); position:relative; overflow:hidden;
+    width:200px;
+    height:8px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#E2E8F0;
   }
+
   .progress-fill{
-    position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--gold); transition:width 0.2s;
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#2563EB,#0EA5E9);
+    transition:width .2s ease;
   }
-  .note{
-    margin-top:22px;
-    background:var(--amber-bg);
-    border-left:3px solid var(--amber);
-    padding:12px 16px;
+
+  .system-box{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .system-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .system-kicker{
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .system-title{
+    margin-top:6px;
+    font-size:18px;
+    line-height:1.3;
+    font-weight:900;
+    color:var(--navy);
+  }
+
+  .system-icon{
+    width:40px;
+    height:40px;
+    border-radius:14px;
+    background:var(--blue-soft);
+    color:var(--blue-2);
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    flex:none;
+  }
+
+  .system-text{
     font-size:13px;
-    color:#5C4712;
-    line-height:1.6;
+    line-height:1.7;
+    color:var(--muted);
   }
-  .note strong{ color:#4A3A0E; }
+
+  .trust-flow{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(140px, 1fr));
+    gap:10px;
+    align-items:stretch;
+  }
+
+  .flow-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px 16px;
+    background:#fff;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .flow-card .num{
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue);
+    margin-bottom:8px;
+  }
+
+  .flow-card .ttl{
+    font-size:11px;
+    font-weight:900;
+    color:var(--navy);
+    margin-bottom:8px;
+    line-height:1.35;
+  }
+
+  .flow-card .txt{
+    font-size:11px;
+    line-height:1.55;
+    color:var(--muted);
+    flex:1;
+  }
+
+  .system-outcomes{
+    border-top:1px dashed var(--border);
+    padding-top:14px;
+    font-size:12.5px;
+    line-height:1.75;
+    color:var(--muted);
+  }
+
+  .system-outcomes b{color:var(--navy)}
+
+  .criteria-box{
+    border-top:1px solid var(--border);
+    padding-top:16px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .criteria-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px;
+    background:linear-gradient(180deg,#F8FBFF 0%, #FFFFFF 100%);
+  }
+
+  .criteria-label{
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue);
+    margin-bottom:8px;
+  }
+
+  .criteria-title{
+    font-size:13px;
+    font-weight:900;
+    color:var(--navy);
+    margin-bottom:6px;
+    line-height:1.4;
+  }
+
+  .criteria-text{
+    font-size:12px;
+    line-height:1.65;
+    color:var(--muted);
+  }
+
+  .horizontal-note{
+    margin-top:18px;
+    border:1px solid #FDE68A;
+    background:linear-gradient(180deg,#FFF8E8 0%, #FFFBF0 100%);
+    border-radius:18px;
+    padding:16px 18px;
+    color:#7C4A03;
+    font-size:13px;
+    line-height:1.8;
+  }
+
+  .horizontal-note strong{color:#8A5A05}
+
+  .results-block{margin-top:24px}
+
+  .dashboard{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .metric-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    min-height:132px;
+    cursor:pointer;
+    transition:.18s ease;
+    box-shadow:0 1px 2px rgba(15,23,42,.03);
+  }
+
+  .metric-card:hover{
+    transform:translateY(-1px);
+    border-color:#BFD1F5;
+    box-shadow:0 10px 24px rgba(37,99,235,.08);
+  }
+
+  .metric-card.active{
+    border-color:#1E3A8A;
+    box-shadow:inset 0 0 0 1px #1E3A8A, 0 10px 24px rgba(37,99,235,.08);
+    background:linear-gradient(180deg,#FFFFFF 0%, #F8FBFF 100%);
+  }
+
+  .metric-label{
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .metric-value{
+    margin-top:18px;
+    font-size:48px;
+    line-height:1;
+    letter-spacing:-.04em;
+    font-weight:900;
+  }
+
+  .metric-sub{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:12.5px;
+    line-height:1.45;
+  }
+
+  .metric-extra{
+    margin-top:8px;
+    font-size:12px;
+    color:var(--muted);
+    font-weight:700;
+  }
+
+  .metric-all .metric-value{color:#2563EB}
+  .metric-nao-retem .metric-value{color:var(--success)}
+  .metric-retem .metric-value{color:var(--danger)}
+  .metric-verificar .metric-value{color:var(--warning)}
+
+  .subfilters{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:16px;
+  }
+
+  .subfilter-btn{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--muted);
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:12px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.18s ease;
+  }
+
+  .subfilter-btn:hover{
+    border-color:#BFD1F5;
+    color:var(--navy);
+    background:#F8FBFF;
+  }
+
+  .subfilter-btn.active{
+    border-color:#1E3A8A;
+    color:#1E3A8A;
+    background:#EEF4FF;
+  }
+
   .table-wrap{
-    margin-top:24px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
+    margin-top:18px;
+    overflow:auto;
+    border:1px solid var(--border);
+    border-radius:22px;
+    background:#fff;
   }
+
   table{
     width:100%;
-    min-width:760px;
+    min-width:980px;
     border-collapse:collapse;
-    font-size:13.5px;
   }
-  .filter-bar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:20px;
-  }
-  .filter-btn{
-    font-family:var(--mono);
-    font-size:12px;
-    font-weight:600;
-    padding:7px 13px;
-    border:1px solid var(--paper-line);
-    background:#fff;
-    color:var(--ink-soft);
-    cursor:pointer;
-    letter-spacing:0.2px;
-  }
-  .filter-btn:hover{ border-color:var(--ink-soft); color:var(--ink); }
-  .filter-btn.active{
-    background:var(--ink);
-    border-color:var(--ink);
-    color:#fff;
-  }
-  .retry-btn{
-    font-family:var(--sans);
-    font-size:13px;
-    font-weight:600;
-    padding:8px 16px;
-    border:1px solid var(--red);
-    background:#fff;
-    color:var(--red);
-    cursor:pointer;
-    margin-top:14px;
-  }
-  .retry-btn:hover{ background:var(--red-bg); }
-  .retry-btn:disabled{ opacity:0.45; cursor:not-allowed; }
+
   thead th{
     text-align:left;
-    font-family:var(--mono);
+    padding:14px 16px;
     font-size:11px;
+    font-weight:900;
+    letter-spacing:.14em;
     text-transform:uppercase;
-    letter-spacing:0.8px;
-    color:var(--ink-soft);
-    border-bottom:2px solid var(--ink);
-    padding:10px 10px;
+    color:var(--muted);
+    background:#F8FAFC;
+    border-bottom:1px solid var(--border);
   }
+
   tbody td{
-    padding:12px 10px;
-    border-bottom:1px solid var(--paper-line);
+    padding:16px;
+    border-bottom:1px solid #EEF2F7;
     vertical-align:top;
+    font-size:13.5px;
   }
-  tbody tr:hover{ background:#FBFAF7; }
-  .cnpj-cell{ font-family:var(--mono); white-space:nowrap; }
+
+  tbody tr:hover{background:#FAFCFF}
+
+  .cnpj-cell{
+    font-family:var(--mono);
+    white-space:nowrap;
+    color:var(--navy);
+    font-weight:700;
+  }
+
+  .razao{
+    font-weight:900;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+
+  .sit{
+    color:var(--muted);
+    font-size:12px;
+  }
+
   .badge{
     display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
     font-size:12px;
-    font-weight:700;
-    padding:4px 10px;
-    border-radius:2px;
+    font-weight:800;
     white-space:nowrap;
   }
-  .badge.sim{ background:var(--green-bg); color:var(--green); }
-  .badge.nao{ background:var(--red-bg); color:var(--red); }
-  .badge.na{ background:var(--paper-line); color:var(--ink-soft); }
-  .reten{
+
+  .badge.sim{background:var(--success-bg);color:var(--success)}
+  .badge.nao{background:var(--danger-bg);color:var(--danger)}
+  .badge.na{background:#E2E8F0;color:#475569}
+
+  .status-note{
+    font-size:12px;
+    line-height:1.6;
     font-weight:700;
   }
-  .reten.nao-reter{ color:var(--green); }
-  .reten.reter{ color:var(--red); }
+
+  .status-note.neutral{color:var(--muted)}
+  .status-note.positive{
+    color:var(--success);
+    background:rgba(22,163,74,.08);
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .status-note.negative{color:var(--danger)}
+  .status-note.warning{color:var(--warning)}
+
+  .reten{
+    font-weight:900;
+    font-size:13px;
+  }
+
+  .nao-reter{color:var(--success)}
+  .reter{color:var(--danger)}
+  .verificar{color:var(--warning)}
+
   .copy-btn{
-    display:block;
-    margin-top:6px;
-    font-family:var(--mono);
-    font-size:11px;
-    font-weight:600;
-    padding:3px 8px;
-    border:1px solid var(--ink-soft);
+    display:inline-block;
+    margin-top:8px;
+    padding:7px 10px;
+    border-radius:10px;
     background:#fff;
-    color:var(--ink-soft);
+    border:1px solid var(--border);
+    color:var(--muted);
+    font-size:11px;
+    font-weight:800;
     cursor:pointer;
   }
-  .copy-btn:hover{ border-color:var(--gold); color:var(--gold); }
-  .copy-btn.copied{ border-color:var(--green); color:var(--green); }
-  .razao{ font-weight:600; }
-  .sit{ font-size:12px; color:var(--ink-soft); }
-  .date-sub{ font-size:11px; color:var(--ink-soft); margin-top:3px; }
-  .err-row td{ color:var(--red); font-style:italic; }
+
+  .copy-btn:hover{
+    color:var(--blue);
+    border-color:#93C5FD;
+  }
+
+  .copy-btn.copied{
+    color:var(--success);
+    border-color:#86EFAC;
+    background:#F0FDF4;
+  }
+
+  .err-row td{
+    color:var(--danger);
+    font-style:italic;
+    white-space:normal;
+    word-break:break-word;
+  }
+
   .summary{
-    margin-top:18px;
+    margin-top:16px;
     display:flex;
-    gap:22px;
+    gap:16px;
     flex-wrap:wrap;
-    font-family:var(--mono);
+    color:var(--muted);
     font-size:12.5px;
-    color:var(--ink-soft);
   }
-  .summary b{ color:var(--ink); }
+
+  .summary b{color:var(--navy)}
+
+  .retry-btn{
+    margin-top:14px;
+    background:#fff;
+    color:var(--danger);
+    border:1px solid #FCA5A5;
+  }
+
+  .retry-btn:hover:not(:disabled){background:#FEF2F2}
+
   .footer-note{
-    margin-top:28px;
+    margin-top:18px;
     padding-top:16px;
-    border-top:1px solid var(--paper-line);
-    font-size:11.5px;
-    color:var(--ink-soft);
-    line-height:1.7;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.75;
   }
+
+  .credit{
+    text-align:center;
+    margin-top:16px;
+    font-size:11px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
+
+  @media (max-width:1180px){
+    .hero-top{grid-template-columns:1fr}
+    .dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid{grid-template-columns:1fr}
+    .trust-flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .criteria-box{grid-template-columns:1fr}
+  }
+
   @media (max-width:640px){
-    .letterhead{ padding:20px 18px 16px; }
-    .body-pad{ padding:20px 18px 28px; }
-    table{ font-size:12px; }
+    body{padding:14px 10px 36px}
+    .hero{padding:20px 18px}
+    .content{padding:16px}
+    .panel{padding:18px}
+    .hero h1{font-size:28px}
+    .dashboard{grid-template-columns:1fr}
+    .trust-flow{grid-template-columns:1fr}
+    .progress-bar{width:130px}
+    .actions button{width:100%}
   }
 </style>
 </head>
 <body>
-<div class="sheet">
-  <div class="letterhead">
-    <div>
-      <h1>Consulta de Optantes — Simples Nacional</h1>
-      <p>Verificação em lote para dispensa de retenção de IRRF / CSRF (PIS·COFINS·CSLL)</p>
-    </div>
-    <div class="stamp">uso interno · fiscal</div>
-  </div>
+  <div class="app">
+    <div class="shell">
+      <div class="hero">
+        <div class="hero-top">
+          <div>
+            <div class="eyebrow">Fiscal Intelligence</div>
+            <h1>Consulta em Lote — Simples Nacional</h1>
+            <p>Analise CNPJs em lote e obtenha uma indicação inicial sobre enquadramento no Simples Nacional, MEI e tratamento indicativo de IRRF/CSRF.</p>
+            <div class="chips">
+              <span class="chip">Simples Nacional</span>
+              <span class="chip">MEI</span>
+              <span class="chip">IRRF</span>
+              <span class="chip">CSRF</span>
+            </div>
+          </div>
 
+          <div class="hero-card">
+            <div class="label">Dados fiscais</div>
+            <div class="status">
+              <span class="check">✓</span>
+              <span class="status-text">Indicação da análise</span>
+            </div>
 
-  <div class="body-pad">
-    <label class="field-label" for="cnpjInput">CNPJs a consultar (um por linha, com ou sem pontuação)</label>
-    <textarea id="cnpjInput" placeholder="11.222.333/0001-81&#10;00000000000191&#10;12345678000199"></textarea>
-    <div class="hint">Aceita CNPJ formatado ou só números. Linhas em branco são ignoradas. Fonte: CNPJ público (Receita Federal) via BrasilAPI.</div>
+            <div class="desc">
+              Classificação automatizada com base em dados cadastrais públicos e regras fiscais tratadas na ferramenta.
+            </div>
 
-    <div class="upload-row">
-      <div class="upload-divider"><span>ou</span></div>
-      <label class="upload-box" for="fileInput">
-        <span class="upload-title">Enviar planilha (.xlsx, .xls ou .csv)</span>
-        <span class="upload-sub">Os CNPJs de todas as células são detectados automaticamente e somados à lista acima</span>
-        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;">
-      </label>
-      <div id="fileStatus" class="file-status"></div>
-    </div>
+            <div class="hero-outcomes">
+              <span class="hero-pill nao-retem">Não retém</span>
+              <span class="hero-pill retem">Retém</span>
+              <span class="hero-pill verificar">Verificar</span>
+            </div>
 
-    <div class="actions">
-      <button id="consultarBtn">Consultar CNPJs</button>
-      <button id="exportBtn" class="secondary" disabled>Exportar CSV</button>
-      <div class="progress-wrap" id="progressWrap">
-        <span id="progressText">0 / 0</span>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="hero-flow">
+              <span class="hero-step">Dados</span>
+              <span class="hero-arrow">→</span>
+              <span class="hero-step">Regras</span>
+              <span class="hero-arrow">→</span>
+              <span class="hero-step">Análise</span>
+              <span class="hero-arrow">→</span>
+              <span class="hero-step">Resultado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="panel">
+          <div class="section-kicker">Consultar empresas</div>
+          <h2 class="section-title">Consulta fiscal inteligente</h2>
+          <p class="section-subtitle">Analise CNPJs em lote. Digite um CNPJ por linha ou importe uma planilha.</p>
+
+          <div class="grid">
+            <div class="input-card">
+              <label class="field-label" for="cnpjInput">CNPJs a consultar</label>
+              <textarea id="cnpjInput" placeholder="11.222.333/0001-81&#10;00000000000191&#10;12345678000199&#10;00.000.000/E08G-12"></textarea>
+              <div class="hint">Aceita CNPJ formatado, sem máscara, numérico ou alfanumérico. Um CNPJ por linha. Linhas em branco são ignoradas.</div>
+
+              <div class="upload-divider"><span>ou</span></div>
+
+              <label class="upload-box" for="fileInput">
+                <span class="upload-title">Enviar planilha (.xlsx, .xls ou .csv)</span>
+                <span class="upload-sub">Os CNPJs encontrados serão adicionados à lista acima. O processamento considera todos os registros encontrados, sem limite artificial.</span>
+                <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;">
+              </label>
+
+              <div id="fileStatus" class="file-status"></div>
+
+              <div class="actions">
+                <button id="consultarBtn">Consultar CNPJs</button>
+                <button id="exportBtn" disabled>Exportar CSV</button>
+
+                <div class="progress-wrap" id="progressWrap">
+                  <span id="progressText">0 / 0</span>
+                  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="side-card">
+              <div class="system-box">
+                <div class="system-head">
+                  <div>
+                    <div class="system-kicker">Como o sistema funciona</div>
+                    <div class="system-title">Triagem fiscal orientada por dados e regras</div>
+                  </div>
+                  <div class="system-icon">✦</div>
+                </div>
+
+                <div class="system-text">
+                  O sistema consulta a base pública de CNPJ, interpreta sinais de enquadramento no Simples Nacional e MEI, aplica as regras tratadas na ferramenta e entrega uma saída indicativa para apoio à análise fiscal.
+                </div>
+
+                <div class="trust-flow">
+                  <div class="flow-card">
+                    <div class="num">01 · Dados</div>
+                    <div class="ttl">Leitura do CNPJ</div>
+                    <div class="txt">Recebe um ou vários CNPJs, digitados manualmente ou importados por planilha.</div>
+                  </div>
+                  <div class="flow-card">
+                    <div class="num">02 · Regras</div>
+                    <div class="ttl">Enquadramento</div>
+                    <div class="txt">Consulta a base pública, identifica sinais de Simples Nacional, MEI e exclusão.</div>
+                  </div>
+                  <div class="flow-card">
+                    <div class="num">03 · Análise</div>
+                    <div class="ttl">Classificação</div>
+                    <div class="txt">Aplica a lógica fiscal do sistema para separar Não retém, Retém ou Verificar.</div>
+                  </div>
+                  <div class="flow-card">
+                    <div class="num">04 · Resultado</div>
+                    <div class="ttl">Saída indicativa</div>
+                    <div class="txt">Organiza os resultados em cards, tabela, filtros e exportação CSV.</div>
+                  </div>
+                </div>
+
+                <div class="system-outcomes">
+                  <b>Saídas possíveis:</b>
+                  <span style="color:var(--success);font-weight:800;">Não retém</span> para indício de dispensa nas hipóteses tratadas;
+                  <span style="color:var(--danger);font-weight:800;">Retém</span> para ausência de enquadramento identificador de dispensa;
+                  <span style="color:var(--warning);font-weight:800;">Verificar</span> para informação insuficiente, conflito cadastral ou conferência manual.
+                </div>
+
+                <div class="criteria-box">
+                  <div class="criteria-card">
+                    <div class="criteria-label">Critérios da análise</div>
+                    <div class="criteria-title">Fonte e leitura dos dados</div>
+                    <div class="criteria-text">
+                      Base pública de CNPJ da Receita Federal via BrasilAPI, com interpretação dos sinais cadastrais relacionados a Simples Nacional, MEI e exclusão.
+                    </div>
+                  </div>
+                  <div class="criteria-card">
+                    <div class="criteria-label">Uso recomendado</div>
+                    <div class="criteria-title">Apoio à triagem fiscal</div>
+                    <div class="criteria-text">
+                      A classificação automatizada serve para apoio operacional e conferência inicial, sem substituir a análise da natureza do serviço, exceções legais e validação fiscal final.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="horizontal-note">
+            <strong>Regra geral:</strong> empresas optantes pelo Simples Nacional e MEI, em regra, não sofrem as retenções tratadas nesta ferramenta nas hipóteses indicadas.
+            <strong>Atenção:</strong> a retenção efetiva depende da natureza do serviço/pagamento, tomador, legislação aplicável e demais condições da operação.
+          </div>
+
+          <div id="resultsArea" class="results-block"></div>
+        </div>
       </div>
     </div>
 
-    <div class="note">
-      <strong>Regra geral:</strong> empresas optantes pelo Simples Nacional (e MEI) não sofrem retenção de IRRF, PIS, COFINS e CSLL sobre serviços prestados a pessoa jurídica (IN RFB 1.234/2012, art. 4º, XI). <strong>Atenção:</strong> serviços de limpeza/conservação, segurança/vigilância e locação de mão de obra têm regras específicas de retenção de CSRF que podem se aplicar independente do regime — confira o tipo de serviço antes de dispensar a retenção nesses casos.
-    </div>
-
-    <div id="resultsArea"></div>
+    <div class="credit">Desenvolvido por Vinicius Trivelato de Oliveira</div>
   </div>
-</div>
-
-<div class="page-credit">Desenvolvido por Vinicius Trivelato de Oliveira</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -367,111 +1029,154 @@ const resultsArea = document.getElementById('resultsArea');
 const progressWrap = document.getElementById('progressWrap');
 const progressText = document.getElementById('progressText');
 const progressFill = document.getElementById('progressFill');
+const fileInput = document.getElementById('fileInput');
+const fileStatus = document.getElementById('fileStatus');
 
 let lastResults = [];
 let currentFilter = 'all';
 
-function categoryOf(r){
-  if(r.error) return 'erro';
-  if(r.simplesInfo) return 'verificar';
-  return (r.simples || r.mei) ? 'nao-retem' : 'retem';
+function normalizeToken(s){
+  return (s || '').trim().toUpperCase();
 }
 
-function onlyDigits(s){ return (s || '').replace(/\D/g, ''); }
+function cleanCnpjToken(s){
+  return normalizeToken(s).replace(/[^A-Z0-9]/g, '');
+}
 
-// Validação oficial do dígito verificador do CNPJ (módulo 11)
+function hasLetters(s){
+  return /[A-Z]/.test(cleanCnpjToken(s));
+}
+
 function cnpjValido(digits){
   if(digits.length !== 14) return false;
-  if(/^(\d)\1{13}$/.test(digits)) return false; // todos os dígitos iguais
-
+  if(/^(\d)\1{13}$/.test(digits)) return false;
   const calcDigito = (base) => {
     const pesos = base.length === 12
       ? [5,4,3,2,9,8,7,6,5,4,3,2]
       : [6,5,4,3,2,9,8,7,6,5,4,3,2];
     let soma = 0;
-    for(let i = 0; i < base.length; i++) soma += parseInt(base[i], 10) * pesos[i];
+    for(let i = 0; i < base.length; i++){
+      soma += parseInt(base[i], 10) * pesos[i];
+    }
     const resto = soma % 11;
     return resto < 2 ? 0 : 11 - resto;
   };
-
-  const base12 = digits.slice(0, 12);
+  const base12 = digits.slice(0,12);
   const d1 = calcDigito(base12);
   const d2 = calcDigito(base12 + d1);
   return digits === base12 + String(d1) + String(d2);
 }
 
-function formatCnpj(digits){
-  if(digits.length !== 14) return digits;
-  return digits.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+function formatCnpj(value){
+  const clean = cleanCnpjToken(value);
+  if(clean.length !== 14) return value;
+  return clean.replace(/^(.{2})(.{3})(.{3})(.{4})(.{2})$/, '$1.$2.$3/$4-$5');
+}
+
+function splitRawEntries(raw){
+  return String(raw || '')
+    .replace(/\r/g, '\n')
+    .split(/\n+/)
+    .map(s => s.trim())
+    .filter(Boolean);
 }
 
 function parseCnpjList(raw){
-  const lines = raw.split(/[\n,;]+/).map(l => onlyDigits(l)).filter(l => l.length > 0);
+  const entries = splitRawEntries(raw);
   const seen = new Set();
   const out = [];
-  for(const l of lines){
-    if(l.length === 14 && !seen.has(l)){
-      seen.add(l);
-      out.push(l);
-    } else if(l.length !== 14 && l.length > 0){
-      out.push(l); // keep invalid ones to report as errors
+  for(const item of entries){
+    const clean = cleanCnpjToken(item);
+    if(!clean) continue;
+    if(!seen.has(clean)){
+      seen.add(clean);
+      out.push(clean);
     }
   }
   return out;
 }
 
-function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-const fileInput = document.getElementById('fileInput');
-const fileStatus = document.getElementById('fileStatus');
-
 function extractCnpjsFromText(text){
-  const tokens = text.split(/[\s,;|]+/);
+  const lines = String(text || '').split(/\r?\n/);
   const found = [];
-  for(let t of tokens){
-    let d = onlyDigits(t);
-    if(d.length === 13) d = '0' + d; // caso comum: Excel/planilha perdeu o zero à esquerda
-    if(d.length === 14) found.push(d);
+  for(const line of lines){
+    const matches = String(line).toUpperCase().match(/[A-Z0-9./-]{8,30}/g) || [];
+    for(let token of matches){
+      let clean = cleanCnpjToken(token);
+      if(clean.length === 13 && !/[A-Z]/.test(clean)) clean = '0' + clean;
+      if(clean.length === 14) found.push(clean);
+    }
   }
   return [...new Set(found)];
 }
 
 function importCnpjs(list, source){
   if(list.length === 0){
-    fileStatus.textContent = 'Nenhum CNPJ de 14 dígitos foi encontrado em "' + source + '".';
+    fileStatus.textContent = 'Nenhum CNPJ foi encontrado em "' + source + '".';
     fileStatus.className = 'file-status warn';
     return;
   }
-  const existentes = new Set(parseCnpjList(cnpjInput.value).filter(c => c.length === 14));
+
+  const existentes = new Set(parseCnpjList(cnpjInput.value));
   const novos = list.filter(c => !existentes.has(c));
-  const formatted = novos.map(formatCnpj).join('\n');
   const atual = cnpjInput.value.trim();
+  const formatted = novos.map(formatCnpj).join('\n');
   cnpjInput.value = atual ? atual + '\n' + formatted : formatted;
 
-  const invalidos = list.filter(c => !cnpjValido(c)).length;
-  fileStatus.textContent = novos.length + ' CNPJ(s) importado(s) de "' + source + '"' +
+  const invalidosNumericos = list.filter(c => !hasLetters(c) && !cnpjValido(c)).length;
+  const alfanumericos = list.filter(c => hasLetters(c)).length;
+
+  fileStatus.textContent =
+    novos.length + ' CNPJ(s) importado(s) de "' + source + '"' +
     (list.length - novos.length > 0 ? ' (' + (list.length - novos.length) + ' já estavam na lista)' : '') +
-    (invalidos > 0 ? ' — atenção: ' + invalidos + ' com dígito verificador inválido, confira a planilha' : '') + '.';
+    (invalidosNumericos > 0 ? ' — atenção: ' + invalidosNumericos + ' numérico(s) com DV inválido' : '') +
+    (alfanumericos > 0 ? ' — ' + alfanumericos + ' alfanumérico(s) poderão exigir verificação manual' : '') + '.';
+
   fileStatus.className = 'file-status ok';
 }
+
+cnpjInput.addEventListener('paste', (e) => {
+  const pasted = (e.clipboardData || window.clipboardData).getData('text');
+  if(!pasted) return;
+  const parsed = extractCnpjsFromText(pasted);
+
+  if(parsed.length > 1){
+    e.preventDefault();
+    const existentes = new Set(parseCnpjList(cnpjInput.value));
+    const novos = parsed.filter(c => !existentes.has(c));
+    const bloco = novos.map(formatCnpj).join('\n');
+    if(!bloco) return;
+
+    const start = cnpjInput.selectionStart;
+    const end = cnpjInput.selectionEnd;
+    const before = cnpjInput.value.slice(0, start);
+    const after = cnpjInput.value.slice(end);
+    const prefix = before && !before.endsWith('\n') ? '\n' : '';
+    const suffix = after && !after.startsWith('\n') ? '\n' : '';
+
+    cnpjInput.value = before + prefix + bloco + suffix + after;
+  }
+});
 
 fileInput.addEventListener('change', async () => {
   const file = fileInput.files[0];
   if(!file) return;
+
   fileStatus.textContent = 'Lendo arquivo...';
   fileStatus.className = 'file-status';
 
   const name = file.name.toLowerCase();
+
   try{
     if(name.endsWith('.csv')){
       const text = await file.text();
       importCnpjs(extractCnpjsFromText(text), file.name);
     } else {
       const buf = await file.arrayBuffer();
-      const wb = XLSX.read(buf, { type: 'array' });
+      const wb = XLSX.read(buf, { type:'array' });
       let allText = '';
       wb.SheetNames.forEach(sheetName => {
-        const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, raw: false, defval: '' });
+        const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header:1, raw:false, defval:'' });
         rows.forEach(row => { allText += row.join(' ') + '\n'; });
       });
       importCnpjs(extractCnpjsFromText(allText), file.name);
@@ -480,46 +1185,75 @@ fileInput.addEventListener('change', async () => {
     fileStatus.textContent = 'Não foi possível ler o arquivo (' + (e.message || 'erro desconhecido') + '). Confira se é um .xlsx, .xls ou .csv válido.';
     fileStatus.className = 'file-status warn';
   }
-  fileInput.value = ''; // permite reenviar o mesmo arquivo depois
+
+  fileInput.value = '';
 });
 
-async function consultarCnpj(digits){
-  if(digits.length !== 14){
-    return { cnpj: digits, error: 'CNPJ inválido (deve ter 14 dígitos — confira se não faltam zeros à esquerda)' };
+function sleep(ms){
+  return new Promise(r => setTimeout(r, ms));
+}
+
+function isCurrentDesenquadrado(r){
+  return !r.error && !r.simples && !!r.dataExclusaoSimples;
+}
+
+function categoryOf(r){
+  if(r.error) return 'erro';
+  if(r.manualCheck || r.simplesInfo) return 'verificar';
+  return (r.simples || r.mei) ? 'nao-retem' : 'retem';
+}
+
+async function consultarCnpj(cnpj){
+  const clean = cleanCnpjToken(cnpj);
+
+  if(clean.length !== 14){
+    return { cnpj: clean, error: 'CNPJ inválido (deve conter 14 caracteres válidos).' };
   }
-  if(!cnpjValido(digits)){
-    return { cnpj: digits, error: 'Dígito verificador inválido — confira se o CNPJ foi digitado/copiado corretamente' };
+
+  if(hasLetters(clean)){
+    return {
+      cnpj: clean,
+      razao_social: '—',
+      situacao: 'Entrada alfanumérica',
+      simples: false,
+      simplesInfo: true,
+      mei: false,
+      manualCheck: true,
+      dataOpcaoSimples: null,
+      dataExclusaoSimples: null
+    };
   }
+
+  if(!cnpjValido(clean)){
+    return { cnpj: clean, error: 'Dígito verificador inválido — confira se o CNPJ foi digitado/copiado corretamente.' };
+  }
+
   try{
-    const res = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + digits);
-    if(res.status === 404){
-      return { cnpj: digits, error: 'CNPJ não encontrado na base da Receita' };
-    }
-    if(res.status === 400){
-      return { cnpj: digits, error: 'CNPJ rejeitado pela API (HTTP 400) — confira o número na consulta oficial da Receita' };
-    }
-    if(!res.ok){
-      return { cnpj: digits, error: 'Erro na consulta (HTTP ' + res.status + ')' };
-    }
+    const res = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + clean);
+
+    if(res.status === 404) return { cnpj: clean, error: 'CNPJ não encontrado na base da Receita.' };
+    if(res.status === 400) return { cnpj: clean, error: 'CNPJ rejeitado pela API (HTTP 400).' };
+    if(!res.ok) return { cnpj: clean, error: 'Erro na consulta (HTTP ' + res.status + ').' };
+
     const data = await res.json();
     const simples = data.opcao_pelo_simples === true;
     const simplesInfo = data.opcao_pelo_simples === null || data.opcao_pelo_simples === undefined;
     const mei = data.opcao_pelo_mei === true;
-    const dataOpcaoSimples = data.data_opcao_pelo_simples || null;
-    const dataExclusaoSimples = data.data_exclusao_do_simples || null;
+
     return {
-      cnpj: digits,
+      cnpj: clean,
       razao_social: data.razao_social || '—',
       situacao: data.descricao_situacao_cadastral || '—',
-      simples: simples,
-      simplesInfo: simplesInfo,
-      mei: mei,
-      dataOpcaoSimples: dataOpcaoSimples,
-      dataExclusaoSimples: dataExclusaoSimples
+      simples,
+      simplesInfo,
+      mei,
+      manualCheck: false,
+      dataOpcaoSimples: data.data_opcao_pelo_simples || null,
+      dataExclusaoSimples: data.data_exclusao_do_simples || null
     };
   }catch(e){
     const msg = (e && e.message) ? e.message : 'erro desconhecido';
-    return { cnpj: digits, error: 'Falha de conexão (' + msg + '). Confira sua internet e tente novamente.' };
+    return { cnpj: clean, error: 'Falha de conexão (' + msg + '). Confira sua internet e tente novamente.' };
   }
 }
 
@@ -531,15 +1265,16 @@ function formatDateBR(iso){
 }
 
 function situacaoSimplesCell(r){
-  if(r.simplesInfo) return '<span class="date-sub">—</span>';
+  if(r.manualCheck) return '<span class="status-note warning">entrada alfanumérica — conferir manualmente</span>';
+  if(r.simplesInfo) return '<span class="status-note neutral">não informado na base consultada</span>';
   if(r.simples){
     return r.dataOpcaoSimples
-      ? '<span class="date-sub">optante desde ' + formatDateBR(r.dataOpcaoSimples) + '</span>'
-      : '<span class="date-sub">—</span>';
+      ? '<span class="status-note positive">optante desde ' + formatDateBR(r.dataOpcaoSimples) + '</span>'
+      : '<span class="status-note positive">optante</span>';
   }
   return r.dataExclusaoSimples
-    ? '<span class="reten reter">excluído em ' + formatDateBR(r.dataExclusaoSimples) + '</span>'
-    : '<span class="date-sub">nunca optou</span>';
+    ? '<span class="status-note negative">excluído em ' + formatDateBR(r.dataExclusaoSimples) + '</span>'
+    : '<span class="status-note neutral">não optante / sem registro de opção</span>';
 }
 
 function badgeSimNao(val, unknown){
@@ -549,48 +1284,59 @@ function badgeSimNao(val, unknown){
 
 function retencaoLabel(r){
   if(r.error) return '—';
-  if(r.simplesInfo){
-    return '<span class="reten">Verificar manualmente</span>' +
-      '<button class="copy-btn" data-cnpj="' + r.cnpj + '" title="Copiar CNPJ para consultar na Receita">Copiar CNPJ</button>';
+  if(r.manualCheck || r.simplesInfo){
+    return '<span class="reten verificar">Verificar manualmente</span>' +
+      '<button class="copy-btn" data-cnpj="' + r.cnpj + '" title="Copiar CNPJ">Copiar CNPJ</button>';
   }
-  const dispensa = r.simples || r.mei;
-  return dispensa
+  return (r.simples || r.mei)
     ? '<span class="reten nao-reter">Não retém</span>'
     : '<span class="reten reter">Retém</span>';
 }
 
 function renderResults(results){
   lastResults = results;
+
   const okCount = results.filter(r => !r.error).length;
-  const simplesCount = results.filter(r => !r.error && (r.simples || r.mei)).length;
-  const errorCount = results.filter(r => r.error).length;
+  const naoRetemCount = results.filter(r => categoryOf(r) === 'nao-retem').length;
   const retemCount = results.filter(r => categoryOf(r) === 'retem').length;
   const verificarCount = results.filter(r => categoryOf(r) === 'verificar').length;
-  const desenquadradoCount = results.filter(r => !r.error && r.dataExclusaoSimples).length;
+  const errorCount = results.filter(r => r.error).length;
+  const desenquadradoCount = results.filter(r => isCurrentDesenquadrado(r)).length;
 
-  if(!['all','retem','nao-retem','verificar','erro','desenquadrado'].includes(currentFilter)) currentFilter = 'all';
-  if(currentFilter === 'erro' && errorCount === 0) currentFilter = 'all';
+  if(!['all','nao-retem','retem','verificar','desenquadrado'].includes(currentFilter)){
+    currentFilter = 'all';
+  }
   if(currentFilter === 'desenquadrado' && desenquadradoCount === 0) currentFilter = 'all';
 
-  const filtros = [
-    { key: 'all', label: 'Todos', count: results.length },
-    { key: 'nao-retem', label: 'Não retém', count: simplesCount },
-    { key: 'retem', label: 'Retém', count: retemCount },
-    { key: 'verificar', label: 'Verificar manualmente', count: verificarCount },
-  ];
-  if(desenquadradoCount > 0) filtros.push({ key: 'desenquadrado', label: 'Desenquadrados', count: desenquadradoCount });
-  if(errorCount > 0) filtros.push({ key: 'erro', label: 'Erros', count: errorCount });
+  let html = '';
 
-  let html = '<div class="filter-bar">';
-  for(const f of filtros){
-    html += '<button type="button" class="filter-btn' + (currentFilter === f.key ? ' active' : '') + '" data-filter="' + f.key + '">' +
-      f.label + ' (' + f.count + ')</button>';
+  if(results.length > 0){
+    const cards = [
+      { key:'all', label:'Consultados', value:results.length, sub:'empresas analisadas', extra:'', cls:'metric-all' },
+      { key:'nao-retem', label:'Não retém', value:naoRetemCount, sub:'dispensa indicativa', extra:'', cls:'metric-nao-retem' },
+      { key:'retem', label:'Retém', value:retemCount, sub:'retenção indicativa', extra:(desenquadradoCount ? desenquadradoCount + ' desenquadrado(s)' : ''), cls:'metric-retem' },
+      { key:'verificar', label:'Verificar', value:verificarCount, sub:'análise manual', extra:'', cls:'metric-verificar' }
+    ];
+
+    html += '<div class="dashboard">';
+    for(const card of cards){
+      html += '<div class="metric-card ' + card.cls + (currentFilter === card.key ? ' active' : '') + '" data-filter="' + card.key + '">' +
+        '<div class="metric-label">' + card.label + '</div>' +
+        '<div class="metric-value">' + card.value + '</div>' +
+        '<div class="metric-sub">' + card.sub + '</div>' +
+        (card.extra ? '<div class="metric-extra">' + card.extra + '</div>' : '') +
+      '</div>';
+    }
+    html += '</div>';
+
+    html += '<div class="subfilters">';
+    html += '<button type="button" class="subfilter-btn' + (currentFilter === 'desenquadrado' ? ' active' : '') + '" data-filter="desenquadrado">Desenquadrados (' + desenquadradoCount + ')</button>';
+    html += '</div>';
   }
-  html += '</div>';
 
   const visiveis = results.filter(r => {
     if(currentFilter === 'all') return true;
-    if(currentFilter === 'desenquadrado') return !r.error && !!r.dataExclusaoSimples;
+    if(currentFilter === 'desenquadrado') return isCurrentDesenquadrado(r);
     return categoryOf(r) === currentFilter;
   });
 
@@ -599,30 +1345,34 @@ function renderResults(results){
     '</tr></thead><tbody>';
 
   if(visiveis.length === 0){
-    html += '<tr><td colspan="6" style="color:var(--ink-soft);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
+    html += '<tr><td colspan="6" style="color:var(--muted);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
   }
 
   for(const r of visiveis){
     if(r.error){
-      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
-        '<td colspan="5">' + r.error + '</td></tr>';
+      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td><td colspan="5">' + r.error + '</td></tr>';
       continue;
     }
+
     html += '<tr>' +
       '<td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
-      '<td><div class="razao">' + r.razao_social + '</div><div class="sit">' + r.situacao + '</div></td>' +
-      '<td>' + badgeSimNao(r.simples, r.simplesInfo) + '</td>' +
+      '<td><div class="razao">' + (r.razao_social || '—') + '</div><div class="sit">' + (r.situacao || '—') + '</div></td>' +
+      '<td>' + badgeSimNao(r.simples, r.simplesInfo || r.manualCheck) + '</td>' +
       '<td>' + situacaoSimplesCell(r) + '</td>' +
-      '<td>' + badgeSimNao(r.mei, false) + '</td>' +
+      '<td>' + (r.manualCheck ? '<span class="badge na">—</span>' : badgeSimNao(r.mei, false)) + '</td>' +
       '<td>' + retencaoLabel(r) + '</td>' +
       '</tr>';
   }
+
   html += '</tbody></table></div>';
 
   html += '<div class="summary">' +
     '<span><b>' + results.length + '</b> consultados</span>' +
-    '<span><b>' + okCount + '</b> encontrados</span>' +
-    '<span><b>' + simplesCount + '</b> dispensam retenção</span>' +
+    '<span><b>' + okCount + '</b> processados</span>' +
+    '<span><b>' + naoRetemCount + '</b> não retêm</span>' +
+    '<span><b>' + retemCount + '</b> retêm</span>' +
+    '<span><b>' + verificarCount + '</b> verificar</span>' +
+    (desenquadradoCount ? '<span><b>' + desenquadradoCount + '</b> desenquadrados (subgrupo de retém)</span>' : '') +
     (errorCount ? '<span><b>' + errorCount + '</b> com erro</span>' : '') +
     '</div>';
 
@@ -630,7 +1380,7 @@ function renderResults(results){
     html += '<button type="button" class="retry-btn" id="retryBtn">Tentar novamente (' + errorCount + ' com erro)</button>';
   }
 
-  html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI — essa base é atualizada periodicamente e não é a mesma consultada em tempo real pelo site oficial do Simples Nacional. Quando aparece <b>"Não informado"</b>, significa que essa base pública não tem um registro de opção/exclusão do Simples para aquele CNPJ — isso pode acontecer mesmo em empresas ativas normais, não só em casos como empresas não elegíveis, condomínios, comitês eleitorais ou CNPJs baixados. Nesses casos, confirme no site oficial do Simples Nacional (gov.br) antes de deixar de reter.</div>';
+  html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI. Esta ferramenta fornece apoio à análise fiscal e não substitui a validação oficial do Simples Nacional nem a análise da natureza do serviço/operação. Empresas com exclusão histórica, mas optantes atuais, não são listadas em “Desenquadrados”.</div>';
 
   resultsArea.innerHTML = html;
   exportBtn.disabled = okCount === 0;
@@ -643,16 +1393,26 @@ resultsArea.addEventListener('click', (e) => {
     navigator.clipboard.writeText(cnpj).then(() => {
       copyBtn.textContent = 'Copiado!';
       copyBtn.classList.add('copied');
-      setTimeout(() => { copyBtn.textContent = 'Copiar CNPJ'; copyBtn.classList.remove('copied'); }, 1500);
+      setTimeout(() => {
+        copyBtn.textContent = 'Copiar CNPJ';
+        copyBtn.classList.remove('copied');
+      }, 1500);
     }).catch(() => {
       copyBtn.textContent = 'Erro ao copiar';
     });
     return;
   }
 
-  const filterBtn = e.target.closest('.filter-btn');
-  if(filterBtn){
-    currentFilter = filterBtn.getAttribute('data-filter');
+  const metricCard = e.target.closest('.metric-card');
+  if(metricCard){
+    currentFilter = metricCard.getAttribute('data-filter');
+    renderResults(lastResults);
+    return;
+  }
+
+  const subfilterBtn = e.target.closest('.subfilter-btn');
+  if(subfilterBtn){
+    currentFilter = subfilterBtn.getAttribute('data-filter');
     renderResults(lastResults);
     return;
   }
@@ -660,7 +1420,6 @@ resultsArea.addEventListener('click', (e) => {
   const retryBtn = e.target.closest('#retryBtn');
   if(retryBtn){
     retrySomenteErros();
-    return;
   }
 });
 
@@ -688,38 +1447,47 @@ async function retrySomenteErros(){
 }
 
 function toCsv(results){
-  const header = ['CNPJ', 'Razao Social', 'Situacao Cadastral', 'Optante Simples Nacional', 'Data Opcao Simples', 'Data Exclusao Simples', 'Optante MEI', 'Retencao IRRF/CSRF'];
+  const header = ['CNPJ','Razao Social','Situacao Cadastral','Optante Simples Nacional','Data Opcao Simples','Data Exclusao Simples','Optante MEI','Retencao IRRF/CSRF'];
   const rows = [header.join(';')];
+
   for(const r of results){
     if(r.error){
-      rows.push([formatCnpj(r.cnpj), '', '', '', '', '', '', 'ERRO: ' + r.error].join(';'));
+      rows.push([formatCnpj(r.cnpj),'','','','','','','ERRO: ' + r.error].join(';'));
       continue;
     }
-    const dispensa = r.simplesInfo ? 'Verificar manualmente' : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
+
+    const saida = (r.manualCheck || r.simplesInfo)
+      ? 'Verificar manualmente'
+      : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
+
     rows.push([
       formatCnpj(r.cnpj),
-      '"' + (r.razao_social || '').replace(/"/g,'""') + '"',
+      '"' + String(r.razao_social || '').replace(/"/g,'""') + '"',
       r.situacao || '',
-      r.simplesInfo ? 'Nao informado' : (r.simples ? 'Sim' : 'Nao'),
+      (r.manualCheck || r.simplesInfo) ? 'Nao informado' : (r.simples ? 'Sim' : 'Nao'),
       formatDateBR(r.dataOpcaoSimples) || '',
       formatDateBR(r.dataExclusaoSimples) || '',
-      r.mei ? 'Sim' : 'Nao',
-      dispensa
+      r.manualCheck ? '' : (r.mei ? 'Sim' : 'Nao'),
+      saida
     ].join(';'));
   }
+
   return rows.join('\n');
 }
 
 consultarBtn.addEventListener('click', async () => {
   const list = parseCnpjList(cnpjInput.value);
+
   if(list.length === 0){
-    resultsArea.innerHTML = '<div class="note" style="background:var(--red-bg);border-left-color:var(--red);color:#5C1F12;">Cole ao menos um CNPJ para consultar.</div>';
+    resultsArea.innerHTML = '<div class="horizontal-note" style="background:#FEF2F2;color:#7F1D1D;border-color:#FECACA;">Cole ao menos um CNPJ para consultar.</div>';
     return;
   }
 
   consultarBtn.disabled = true;
   exportBtn.disabled = true;
   resultsArea.innerHTML = '';
+  currentFilter = 'all';
+
   progressWrap.style.display = 'flex';
   progressText.textContent = '0 / ' + list.length;
   progressFill.style.width = '0%';
@@ -731,7 +1499,7 @@ consultarBtn.addEventListener('click', async () => {
     progressText.textContent = (i + 1) + ' / ' + list.length;
     progressFill.style.width = Math.round(((i + 1) / list.length) * 100) + '%';
     renderResults(results);
-    if(i < list.length - 1) await sleep(350); // gentle pacing to avoid throttling
+    if(i < list.length - 1) await sleep(350);
   }
 
   progressWrap.style.display = 'none';
@@ -740,12 +1508,12 @@ consultarBtn.addEventListener('click', async () => {
 
 exportBtn.addEventListener('click', () => {
   const csv = toCsv(lastResults);
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob(['\uFEFF' + csv], { type:'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const stamp = new Date().toISOString().slice(0,10);
   a.href = url;
-  a.download = 'consulta-simples-nacional-' + stamp + '.csv';
+  a.download = 'consulta-retencao-' + stamp + '.csv';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
