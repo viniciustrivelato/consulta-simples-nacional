@@ -25,7 +25,6 @@
     --mono:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   }
-
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
@@ -36,9 +35,7 @@
     color:var(--text);
     padding:24px 16px 48px;
   }
-
   .app{max-width:1240px;margin:0 auto}
-
   .shell{
     background:rgba(255,255,255,.78);
     backdrop-filter:blur(10px);
@@ -47,7 +44,6 @@
     box-shadow:var(--shadow);
     overflow:hidden;
   }
-
   .hero{
     padding:28px 28px 24px;
     background:
@@ -55,14 +51,12 @@
       linear-gradient(135deg, #0F172A 0%, #172554 45%, #1D4ED8 100%);
     color:#fff;
   }
-
   .hero-top{
     display:grid;
     grid-template-columns:minmax(0,1fr) minmax(420px,540px);
     gap:18px;
     align-items:stretch;
   }
-
   .eyebrow{
     font-size:12px;
     font-weight:800;
@@ -71,14 +65,12 @@
     color:#BFDBFE;
     margin-bottom:10px;
   }
-
   .hero h1{
     margin:0;
     font-size:34px;
     line-height:1.08;
     letter-spacing:-.03em;
   }
-
   .hero p{
     margin:10px 0 0;
     max-width:760px;
@@ -86,14 +78,12 @@
     line-height:1.65;
     font-size:14px;
   }
-
   .chips{
     margin-top:16px;
     display:flex;
     gap:8px;
     flex-wrap:wrap;
   }
-
   .chip{
     border:1px solid rgba(255,255,255,.18);
     background:rgba(255,255,255,.10);
@@ -103,7 +93,6 @@
     font-size:12px;
     font-weight:700;
   }
-
   .hero-card{
     position:relative;
     min-height:100%;
@@ -116,7 +105,6 @@
       0 16px 30px rgba(15,23,42,.16);
     overflow:hidden;
   }
-
   .hero-card::after{
     content:'';
     position:absolute;
@@ -127,7 +115,6 @@
     background:radial-gradient(circle, rgba(255,255,255,.20), transparent 72%);
     pointer-events:none;
   }
-
   .hero-card .label{
     font-size:11px;
     font-weight:900;
@@ -136,7 +123,6 @@
     color:#D6E6FF;
     margin-bottom:14px;
   }
-
   .hero-card .status{
     display:flex;
     align-items:center;
@@ -145,17 +131,14 @@
     font-weight:800;
     color:#F8FAFC;
   }
-
   .hero-card .check{
     font-size:20px;
     line-height:1;
   }
-
   .hero-card .status-text{
     font-size:18px;
     color:#F8FAFC;
   }
-
   .hero-card .desc{
     margin-top:14px;
     color:#E6EEFF;
@@ -163,14 +146,12 @@
     line-height:1.65;
     max-width:95%;
   }
-
   .hero-outcomes{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
     margin-top:16px;
   }
-
   .hero-pill{
     display:inline-flex;
     align-items:center;
@@ -184,25 +165,21 @@
     font-weight:800;
     letter-spacing:.02em;
   }
-
   .hero-pill.nao-retem{
     background:rgba(34,197,94,.16);
     color:#B8F7CB;
     border-color:rgba(134,239,172,.30);
   }
-
   .hero-pill.retem{
     background:rgba(239,68,68,.14);
     color:#FFD1D1;
     border-color:rgba(252,165,165,.28);
   }
-
   .hero-pill.verificar{
     background:rgba(245,158,11,.14);
     color:#FFE3A3;
     border-color:rgba(252,211,77,.26);
   }
-
   .hero-flow{
     margin-top:16px;
     display:flex;
@@ -210,7 +187,6 @@
     gap:8px;
     flex-wrap:wrap;
   }
-
   .hero-step{
     padding:8px 12px;
     border-radius:999px;
@@ -221,15 +197,12 @@
     font-weight:900;
     letter-spacing:.02em;
   }
-
   .hero-arrow{
     color:#D8E8FF;
     font-weight:900;
     font-size:14px;
   }
-
   .content{padding:26px}
-
   .panel{
     background:var(--card);
     border:1px solid var(--border);
@@ -237,7 +210,6 @@
     padding:24px;
     box-shadow:0 1px 2px rgba(15,23,42,.03);
   }
-
   .section-kicker{
     font-size:12px;
     font-weight:800;
@@ -246,7 +218,6 @@
     color:var(--blue);
     margin-bottom:8px;
   }
-
   .section-title{
     margin:0;
     font-size:24px;
@@ -254,14 +225,12 @@
     letter-spacing:-.03em;
     color:var(--navy);
   }
-
   .section-subtitle{
     margin:8px 0 0;
     color:var(--muted);
     line-height:1.65;
     font-size:14px;
   }
-
   .grid{
     display:grid;
     grid-template-columns:minmax(0,1fr) minmax(720px,1fr);
@@ -269,14 +238,12 @@
     margin-top:22px;
     align-items:start;
   }
-
   .input-card,.side-card{
     border:1px solid var(--border);
     border-radius:20px;
     background:#fff;
     padding:18px;
   }
-
   .field-label{
     display:block;
     margin-bottom:10px;
@@ -284,7 +251,6 @@
     font-size:13px;
     font-weight:800;
   }
-
   textarea{
     width:100%;
     min-height:180px;
@@ -301,21 +267,18 @@
     word-break:normal;
     overflow-wrap:anywhere;
   }
-
   textarea:focus{
     outline:none;
     border-color:#93C5FD;
     box-shadow:0 0 0 4px rgba(37,99,235,.12);
     background:#fff;
   }
-
   .hint{
     margin-top:8px;
     color:var(--muted);
     font-size:12.5px;
     line-height:1.6;
   }
-
   .upload-divider{
     display:flex;
     align-items:center;
@@ -327,14 +290,12 @@
     letter-spacing:.14em;
     font-weight:800;
   }
-
   .upload-divider::before,.upload-divider::after{
     content:'';
     flex:1;
     height:1px;
     background:var(--border);
   }
-
   .upload-box{
     display:block;
     border:1.5px dashed #93A7C7;
@@ -344,19 +305,16 @@
     cursor:pointer;
     transition:.18s ease;
   }
-
   .upload-box:hover{
     border-color:var(--blue);
     background:linear-gradient(180deg,#EFF6FF 0%, #E7F0FF 100%);
   }
-
   .upload-title{
     display:block;
     color:var(--navy);
     font-size:14px;
     font-weight:800;
   }
-
   .upload-sub{
     display:block;
     margin-top:6px;
@@ -364,7 +322,6 @@
     font-size:12.5px;
     line-height:1.5;
   }
-
   .file-status{
     margin-top:10px;
     font-size:12.5px;
@@ -372,7 +329,6 @@
   }
   .file-status.ok{color:var(--success)}
   .file-status.warn{color:var(--danger)}
-
   .actions{
     margin-top:18px;
     display:flex;
@@ -380,7 +336,6 @@
     align-items:center;
     flex-wrap:wrap;
   }
-
   button{
     appearance:none;
     border:none;
@@ -392,26 +347,21 @@
     transition:.18s ease;
   }
   button:disabled{opacity:.5;cursor:not-allowed}
-
   #consultarBtn{
     background:linear-gradient(135deg,var(--blue),var(--blue-2));
     color:#fff;
     box-shadow:0 8px 18px rgba(37,99,235,.25);
   }
-
   #consultarBtn:hover:not(:disabled){
     transform:translateY(-1px);
     filter:brightness(1.03);
   }
-
   #exportBtn{
     background:#fff;
     color:var(--navy);
     border:1px solid var(--border);
   }
-
   #exportBtn:hover:not(:disabled){background:#F8FAFC}
-
   .progress-wrap{
     display:none;
     align-items:center;
@@ -420,7 +370,6 @@
     font-size:12px;
     font-family:var(--mono);
   }
-
   .progress-bar{
     width:200px;
     height:8px;
@@ -428,27 +377,23 @@
     overflow:hidden;
     background:#E2E8F0;
   }
-
   .progress-fill{
     width:0%;
     height:100%;
     background:linear-gradient(90deg,#2563EB,#0EA5E9);
     transition:width .2s ease;
   }
-
   .system-box{
     display:flex;
     flex-direction:column;
     gap:16px;
   }
-
   .system-head{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     gap:12px;
   }
-
   .system-kicker{
     font-size:12px;
     font-weight:900;
@@ -456,7 +401,6 @@
     text-transform:uppercase;
     color:var(--muted);
   }
-
   .system-title{
     margin-top:6px;
     font-size:18px;
@@ -464,7 +408,6 @@
     font-weight:900;
     color:var(--navy);
   }
-
   .system-icon{
     width:40px;
     height:40px;
@@ -476,20 +419,17 @@
     font-weight:900;
     flex:none;
   }
-
   .system-text{
     font-size:13px;
     line-height:1.7;
     color:var(--muted);
   }
-
   .trust-flow{
     display:grid;
     grid-template-columns:repeat(4, minmax(140px, 1fr));
     gap:10px;
     align-items:stretch;
   }
-
   .flow-card{
     border:1px solid var(--border);
     border-radius:16px;
@@ -499,7 +439,6 @@
     display:flex;
     flex-direction:column;
   }
-
   .flow-card .num{
     font-size:11px;
     font-weight:900;
@@ -508,7 +447,6 @@
     color:var(--blue);
     margin-bottom:8px;
   }
-
   .flow-card .ttl{
     font-size:11px;
     font-weight:900;
@@ -516,14 +454,12 @@
     margin-bottom:8px;
     line-height:1.35;
   }
-
   .flow-card .txt{
     font-size:11px;
     line-height:1.55;
     color:var(--muted);
     flex:1;
   }
-
   .system-outcomes{
     border-top:1px dashed var(--border);
     padding-top:14px;
@@ -531,9 +467,7 @@
     line-height:1.75;
     color:var(--muted);
   }
-
   .system-outcomes b{color:var(--navy)}
-
   .criteria-box{
     border-top:1px solid var(--border);
     padding-top:16px;
@@ -541,14 +475,12 @@
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:12px;
   }
-
   .criteria-card{
     border:1px solid var(--border);
     border-radius:16px;
     padding:14px;
     background:linear-gradient(180deg,#F8FBFF 0%, #FFFFFF 100%);
   }
-
   .criteria-label{
     font-size:11px;
     font-weight:900;
@@ -557,7 +489,6 @@
     color:var(--blue);
     margin-bottom:8px;
   }
-
   .criteria-title{
     font-size:13px;
     font-weight:900;
@@ -565,13 +496,11 @@
     margin-bottom:6px;
     line-height:1.4;
   }
-
   .criteria-text{
     font-size:12px;
     line-height:1.65;
     color:var(--muted);
   }
-
   .horizontal-note{
     margin-top:18px;
     border:1px solid #FDE68A;
@@ -582,17 +511,13 @@
     font-size:13px;
     line-height:1.8;
   }
-
   .horizontal-note strong{color:#8A5A05}
-
   .results-block{margin-top:24px}
-
   .dashboard{
     display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));
     gap:14px;
   }
-
   .metric-card{
     background:#fff;
     border:1px solid var(--border);
@@ -603,19 +528,16 @@
     transition:.18s ease;
     box-shadow:0 1px 2px rgba(15,23,42,.03);
   }
-
   .metric-card:hover{
     transform:translateY(-1px);
     border-color:#BFD1F5;
     box-shadow:0 10px 24px rgba(37,99,235,.08);
   }
-
   .metric-card.active{
     border-color:#1E3A8A;
     box-shadow:inset 0 0 0 1px #1E3A8A, 0 10px 24px rgba(37,99,235,.08);
     background:linear-gradient(180deg,#FFFFFF 0%, #F8FBFF 100%);
   }
-
   .metric-label{
     font-size:11px;
     font-weight:900;
@@ -623,7 +545,6 @@
     text-transform:uppercase;
     color:var(--muted);
   }
-
   .metric-value{
     margin-top:18px;
     font-size:48px;
@@ -631,33 +552,28 @@
     letter-spacing:-.04em;
     font-weight:900;
   }
-
   .metric-sub{
     margin-top:8px;
     color:var(--muted);
     font-size:12.5px;
     line-height:1.45;
   }
-
   .metric-extra{
     margin-top:8px;
     font-size:12px;
     color:var(--muted);
     font-weight:700;
   }
-
   .metric-all .metric-value{color:#2563EB}
   .metric-nao-retem .metric-value{color:var(--success)}
   .metric-retem .metric-value{color:var(--danger)}
   .metric-verificar .metric-value{color:var(--warning)}
-
   .subfilters{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
     margin-top:16px;
   }
-
   .subfilter-btn{
     border:1px solid var(--border);
     background:#fff;
@@ -669,19 +585,16 @@
     cursor:pointer;
     transition:.18s ease;
   }
-
   .subfilter-btn:hover{
     border-color:#BFD1F5;
     color:var(--navy);
     background:#F8FBFF;
   }
-
   .subfilter-btn.active{
     border-color:#1E3A8A;
     color:#1E3A8A;
     background:#EEF4FF;
   }
-
   .table-wrap{
     margin-top:18px;
     overflow:auto;
@@ -689,13 +602,11 @@
     border-radius:22px;
     background:#fff;
   }
-
   table{
     width:100%;
-    min-width:980px;
+    min-width:1180px;
     border-collapse:collapse;
   }
-
   thead th{
     text-align:left;
     padding:14px 16px;
@@ -707,34 +618,28 @@
     background:#F8FAFC;
     border-bottom:1px solid var(--border);
   }
-
   tbody td{
     padding:16px;
     border-bottom:1px solid #EEF2F7;
     vertical-align:top;
     font-size:13.5px;
   }
-
   tbody tr:hover{background:#FAFCFF}
-
   .cnpj-cell{
     font-family:var(--mono);
     white-space:nowrap;
     color:var(--navy);
     font-weight:700;
   }
-
   .razao{
     font-weight:900;
     color:var(--navy);
     margin-bottom:4px;
   }
-
   .sit{
     color:var(--muted);
     font-size:12px;
   }
-
   .badge{
     display:inline-block;
     padding:6px 10px;
@@ -743,17 +648,14 @@
     font-weight:800;
     white-space:nowrap;
   }
-
   .badge.sim{background:var(--success-bg);color:var(--success)}
   .badge.nao{background:var(--danger-bg);color:var(--danger)}
   .badge.na{background:#E2E8F0;color:#475569}
-
   .status-note{
     font-size:12px;
     line-height:1.6;
     font-weight:700;
   }
-
   .status-note.neutral{color:var(--muted)}
   .status-note.positive{
     color:var(--success);
@@ -764,16 +666,13 @@
   }
   .status-note.negative{color:var(--danger)}
   .status-note.warning{color:var(--warning)}
-
   .reten{
     font-weight:900;
     font-size:13px;
   }
-
   .nao-reter{color:var(--success)}
   .reter{color:var(--danger)}
   .verificar{color:var(--warning)}
-
   .copy-btn{
     display:inline-block;
     margin-top:8px;
@@ -786,25 +685,21 @@
     font-weight:800;
     cursor:pointer;
   }
-
   .copy-btn:hover{
     color:var(--blue);
     border-color:#93C5FD;
   }
-
   .copy-btn.copied{
     color:var(--success);
     border-color:#86EFAC;
     background:#F0FDF4;
   }
-
   .err-row td{
     color:var(--danger);
     font-style:italic;
     white-space:normal;
     word-break:break-word;
   }
-
   .summary{
     margin-top:16px;
     display:flex;
@@ -813,18 +708,14 @@
     color:var(--muted);
     font-size:12.5px;
   }
-
   .summary b{color:var(--navy)}
-
   .retry-btn{
     margin-top:14px;
     background:#fff;
     color:var(--danger);
     border:1px solid #FCA5A5;
   }
-
   .retry-btn:hover:not(:disabled){background:#FEF2F2}
-
   .footer-note{
     margin-top:18px;
     padding-top:16px;
@@ -833,7 +724,6 @@
     font-size:12px;
     line-height:1.75;
   }
-
   .credit{
     text-align:center;
     margin-top:16px;
@@ -841,7 +731,6 @@
     color:var(--muted);
     font-family:var(--mono);
   }
-
   @media (max-width:1180px){
     .hero-top{grid-template-columns:1fr}
     .dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -849,7 +738,6 @@
     .trust-flow{grid-template-columns:repeat(2,minmax(0,1fr))}
     .criteria-box{grid-template-columns:1fr}
   }
-
   @media (max-width:640px){
     body{padding:14px 10px 36px}
     .hero{padding:20px 18px}
@@ -871,32 +759,30 @@
           <div>
             <div class="eyebrow">Tax Intelligence</div>
             <h1>Consulta em Lote — Simples Nacional</h1>
-            <p>Analise CNPJs em lote e obtenha uma indicação inicial sobre enquadramento no Simples Nacional, MEI e tratamento indicativo de IRRF/CSRF.</p>
+            <p>Analise CNPJs em lote e obtenha uma indicação inicial sobre enquadramento no Simples Nacional, MEI, IBS, CBS e tratamento indicativo de IRRF/CSRF.</p>
             <div class="chips">
               <span class="chip">Simples Nacional</span>
               <span class="chip">MEI</span>
+              <span class="chip">IBS</span>
+              <span class="chip">CBS</span>
               <span class="chip">IRRF</span>
               <span class="chip">CSRF</span>
             </div>
           </div>
-
           <div class="hero-card">
             <div class="label">Dados fiscais</div>
             <div class="status">
               <span class="check">✓</span>
               <span class="status-text">Indicação da análise</span>
             </div>
-
             <div class="desc">
               Classificação automatizada com base em dados cadastrais públicos e regras fiscais tratadas na ferramenta.
             </div>
-
             <div class="hero-outcomes">
               <span class="hero-pill nao-retem">Não retém</span>
               <span class="hero-pill retem">Retém</span>
               <span class="hero-pill verificar">Verificar</span>
             </div>
-
             <div class="hero-flow">
               <span class="hero-step">Dados</span>
               <span class="hero-arrow">→</span>
@@ -909,40 +795,32 @@
           </div>
         </div>
       </div>
-
       <div class="content">
         <div class="panel">
           <div class="section-kicker">Consultar empresas</div>
           <h2 class="section-title">Consulta fiscal inteligente</h2>
           <p class="section-subtitle">Analise CNPJs em lote. Digite um CNPJ por linha ou importe uma planilha.</p>
-
           <div class="grid">
             <div class="input-card">
               <label class="field-label" for="cnpjInput">CNPJs a consultar</label>
               <textarea id="cnpjInput" placeholder="11.222.333/0001-81&#10;00000000000191&#10;12345678000199&#10;00.000.000/E08G-12"></textarea>
               <div class="hint">Aceita CNPJ formatado, sem máscara, numérico ou alfanumérico. Um CNPJ por linha. Linhas em branco são ignoradas.</div>
-
               <div class="upload-divider"><span>ou</span></div>
-
               <label class="upload-box" for="fileInput">
                 <span class="upload-title">Enviar planilha (.xlsx, .xls ou .csv)</span>
                 <span class="upload-sub">Os CNPJs encontrados serão adicionados à lista acima. O processamento considera todos os registros encontrados, sem limite artificial.</span>
                 <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;">
               </label>
-
               <div id="fileStatus" class="file-status"></div>
-
               <div class="actions">
                 <button id="consultarBtn">Consultar CNPJs</button>
                 <button id="exportBtn" disabled>Exportar CSV</button>
-
                 <div class="progress-wrap" id="progressWrap">
                   <span id="progressText">0 / 0</span>
                   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
               </div>
             </div>
-
             <div class="side-card">
               <div class="system-box">
                 <div class="system-head">
@@ -952,11 +830,9 @@
                   </div>
                   <div class="system-icon">✦</div>
                 </div>
-
                 <div class="system-text">
                   O sistema consulta a base pública de CNPJ, interpreta sinais de enquadramento no Simples Nacional e MEI, aplica as regras tratadas na ferramenta e entrega uma saída indicativa para apoio à análise fiscal.
                 </div>
-
                 <div class="trust-flow">
                   <div class="flow-card">
                     <div class="num">01 · Dados</div>
@@ -966,7 +842,7 @@
                   <div class="flow-card">
                     <div class="num">02 · Regras</div>
                     <div class="ttl">Enquadramento</div>
-                    <div class="txt">Consulta a base pública, identifica sinais de Simples Nacional, MEI e exclusão.</div>
+                    <div class="txt">Consulta a base pública, identifica sinais de Simples Nacional, MEI, IBS, CBS e exclusão.</div>
                   </div>
                   <div class="flow-card">
                     <div class="num">03 · Análise</div>
@@ -979,14 +855,12 @@
                     <div class="txt">Organiza os resultados em cards, tabela, filtros e exportação CSV.</div>
                   </div>
                 </div>
-
                 <div class="system-outcomes">
                   <b>Saídas possíveis:</b>
                   <span style="color:var(--success);font-weight:800;">Não retém</span> para indício de dispensa nas hipóteses tratadas;
                   <span style="color:var(--danger);font-weight:800;">Retém</span> para ausência de enquadramento identificador de dispensa;
                   <span style="color:var(--warning);font-weight:800;">Verificar</span> para informação insuficiente, conflito cadastral ou conferência manual.
                 </div>
-
                 <div class="criteria-box">
                   <div class="criteria-card">
                     <div class="criteria-label">Critérios da análise</div>
@@ -1006,17 +880,14 @@
               </div>
             </div>
           </div>
-
           <div class="horizontal-note">
             <strong>Regra geral:</strong> empresas optantes pelo Simples Nacional e MEI, em regra, não sofrem as retenções tratadas nesta ferramenta nas hipóteses indicadas.
             <strong>Atenção:</strong> a retenção efetiva depende da natureza do serviço/pagamento, tomador, legislação aplicável e demais condições da operação.
           </div>
-
           <div id="resultsArea" class="results-block"></div>
         </div>
       </div>
     </div>
-
     <div class="credit">Desenvolvido por Vinicius Trivelato de Oliveira</div>
   </div>
 
@@ -1038,15 +909,12 @@ let currentFilter = 'all';
 function normalizeToken(s){
   return (s || '').trim().toUpperCase();
 }
-
 function cleanCnpjToken(s){
   return normalizeToken(s).replace(/[^A-Z0-9]/g, '');
 }
-
 function hasLetters(s){
   return /[A-Z]/.test(cleanCnpjToken(s));
 }
-
 function cnpjValido(digits){
   if(digits.length !== 14) return false;
   if(/^(\d)\1{13}$/.test(digits)) return false;
@@ -1066,13 +934,11 @@ function cnpjValido(digits){
   const d2 = calcDigito(base12 + d1);
   return digits === base12 + String(d1) + String(d2);
 }
-
 function formatCnpj(value){
   const clean = cleanCnpjToken(value);
   if(clean.length !== 14) return value;
   return clean.replace(/^(.{2})(.{3})(.{3})(.{4})(.{2})$/, '$1.$2.$3/$4-$5');
 }
-
 function splitRawEntries(raw){
   return String(raw || '')
     .replace(/\r/g, '\n')
@@ -1080,7 +946,6 @@ function splitRawEntries(raw){
     .map(s => s.trim())
     .filter(Boolean);
 }
-
 function parseCnpjList(raw){
   const entries = splitRawEntries(raw);
   const seen = new Set();
@@ -1095,7 +960,6 @@ function parseCnpjList(raw){
   }
   return out;
 }
-
 function extractCnpjsFromText(text){
   const lines = String(text || '').split(/\r?\n/);
   const found = [];
@@ -1109,64 +973,51 @@ function extractCnpjsFromText(text){
   }
   return [...new Set(found)];
 }
-
 function importCnpjs(list, source){
   if(list.length === 0){
     fileStatus.textContent = 'Nenhum CNPJ foi encontrado em "' + source + '".';
     fileStatus.className = 'file-status warn';
     return;
   }
-
   const existentes = new Set(parseCnpjList(cnpjInput.value));
   const novos = list.filter(c => !existentes.has(c));
   const atual = cnpjInput.value.trim();
   const formatted = novos.map(formatCnpj).join('\n');
   cnpjInput.value = atual ? atual + '\n' + formatted : formatted;
-
   const invalidosNumericos = list.filter(c => !hasLetters(c) && !cnpjValido(c)).length;
   const alfanumericos = list.filter(c => hasLetters(c)).length;
-
   fileStatus.textContent =
     novos.length + ' CNPJ(s) importado(s) de "' + source + '"' +
     (list.length - novos.length > 0 ? ' (' + (list.length - novos.length) + ' já estavam na lista)' : '') +
     (invalidosNumericos > 0 ? ' — atenção: ' + invalidosNumericos + ' numérico(s) com DV inválido' : '') +
     (alfanumericos > 0 ? ' — ' + alfanumericos + ' alfanumérico(s) poderão exigir verificação manual' : '') + '.';
-
   fileStatus.className = 'file-status ok';
 }
-
 cnpjInput.addEventListener('paste', (e) => {
   const pasted = (e.clipboardData || window.clipboardData).getData('text');
   if(!pasted) return;
   const parsed = extractCnpjsFromText(pasted);
-
   if(parsed.length > 1){
     e.preventDefault();
     const existentes = new Set(parseCnpjList(cnpjInput.value));
     const novos = parsed.filter(c => !existentes.has(c));
     const bloco = novos.map(formatCnpj).join('\n');
     if(!bloco) return;
-
     const start = cnpjInput.selectionStart;
     const end = cnpjInput.selectionEnd;
     const before = cnpjInput.value.slice(0, start);
     const after = cnpjInput.value.slice(end);
     const prefix = before && !before.endsWith('\n') ? '\n' : '';
     const suffix = after && !after.startsWith('\n') ? '\n' : '';
-
     cnpjInput.value = before + prefix + bloco + suffix + after;
   }
 });
-
 fileInput.addEventListener('change', async () => {
   const file = fileInput.files[0];
   if(!file) return;
-
   fileStatus.textContent = 'Lendo arquivo...';
   fileStatus.className = 'file-status';
-
   const name = file.name.toLowerCase();
-
   try{
     if(name.endsWith('.csv')){
       const text = await file.text();
@@ -1185,27 +1036,21 @@ fileInput.addEventListener('change', async () => {
     fileStatus.textContent = 'Não foi possível ler o arquivo (' + (e.message || 'erro desconhecido') + '). Confira se é um .xlsx, .xls ou .csv válido.';
     fileStatus.className = 'file-status warn';
   }
-
   fileInput.value = '';
 });
-
 function sleep(ms){
   return new Promise(r => setTimeout(r, ms));
 }
-
 function isCurrentDesenquadrado(r){
   return !r.error && !r.simples && !!r.dataExclusaoSimples;
 }
-
 function categoryOf(r){
   if(r.error) return 'erro';
   if(r.manualCheck || r.simplesInfo) return 'verificar';
   return (r.simples || r.mei) ? 'nao-retem' : 'retem';
 }
-
 async function consultarCnpj(cnpj){
   const clean = cleanCnpjToken(cnpj);
-
   if(clean.length !== 14){
     return { cnpj: clean, error: 'CNPJ inválido (deve conter 14 caracteres válidos).' };
   }
@@ -1220,7 +1065,9 @@ async function consultarCnpj(cnpj){
       mei: false,
       manualCheck: true,
       dataOpcaoSimples: null,
-      dataExclusaoSimples: null
+      dataExclusaoSimples: null,
+      ibs: 'Não informado',
+      cbs: 'Não informado'
     };
   }
 
@@ -1230,7 +1077,6 @@ async function consultarCnpj(cnpj){
 
   try{
     const res = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + clean);
-
     if(res.status === 404) return { cnpj: clean, error: 'CNPJ não encontrado na base da Receita.' };
     if(res.status === 400) return { cnpj: clean, error: 'CNPJ rejeitado pela API (HTTP 400).' };
     if(!res.ok) return { cnpj: clean, error: 'Erro na consulta (HTTP ' + res.status + ').' };
@@ -1249,21 +1095,21 @@ async function consultarCnpj(cnpj){
       mei,
       manualCheck: false,
       dataOpcaoSimples: data.data_opcao_pelo_simples || null,
-      dataExclusaoSimples: data.data_exclusao_do_simples || null
+      dataExclusaoSimples: data.data_exclusao_do_simples || null,
+      ibs: data.situacao_regime_regular_ibs || 'Não informado',
+      cbs: data.situacao_regime_regular_cbs || 'Não informado'
     };
   }catch(e){
     const msg = (e && e.message) ? e.message : 'erro desconhecido';
     return { cnpj: clean, error: 'Falha de conexão (' + msg + '). Confira sua internet e tente novamente.' };
   }
 }
-
 function formatDateBR(iso){
   if(!iso) return null;
   const partes = String(iso).split('-');
   if(partes.length !== 3) return iso;
   return partes[2] + '/' + partes[1] + '/' + partes[0];
 }
-
 function situacaoSimplesCell(r){
   if(r.manualCheck) return '<span class="status-note warning">entrada alfanumérica — conferir manualmente</span>';
   if(r.simplesInfo) return '<span class="status-note neutral">não informado na base consultada</span>';
@@ -1276,12 +1122,17 @@ function situacaoSimplesCell(r){
     ? '<span class="status-note negative">excluído em ' + formatDateBR(r.dataExclusaoSimples) + '</span>'
     : '<span class="status-note neutral">não optante / sem registro de opção</span>';
 }
-
 function badgeSimNao(val, unknown){
   if(unknown) return '<span class="badge na">Não informado</span>';
   return val ? '<span class="badge sim">Sim</span>' : '<span class="badge nao">Não</span>';
 }
-
+function badgeTexto(val){
+  const t = String(val || '').toLowerCase();
+  if(!val || t === 'não informado') return '<span class="badge na">Não informado</span>';
+  if(t.includes('optante') && !t.includes('não')) return '<span class="badge sim">' + val + '</span>';
+  if(t.includes('não')) return '<span class="badge nao">' + val + '</span>';
+  return '<span class="badge na">' + val + '</span>';
+}
 function retencaoLabel(r){
   if(r.error) return '—';
   if(r.manualCheck || r.simplesInfo){
@@ -1292,10 +1143,8 @@ function retencaoLabel(r){
     ? '<span class="reten nao-reter">Não retém</span>'
     : '<span class="reten reter">Retém</span>';
 }
-
 function renderResults(results){
   lastResults = results;
-
   const okCount = results.filter(r => !r.error).length;
   const naoRetemCount = results.filter(r => categoryOf(r) === 'nao-retem').length;
   const retemCount = results.filter(r => categoryOf(r) === 'retem').length;
@@ -1309,7 +1158,6 @@ function renderResults(results){
   if(currentFilter === 'desenquadrado' && desenquadradoCount === 0) currentFilter = 'all';
 
   let html = '';
-
   if(results.length > 0){
     const cards = [
       { key:'all', label:'Consultados', value:results.length, sub:'empresas analisadas', extra:'', cls:'metric-all' },
@@ -1317,7 +1165,6 @@ function renderResults(results){
       { key:'retem', label:'Retém', value:retemCount, sub:'retenção indicativa', extra:(desenquadradoCount ? desenquadradoCount + ' desenquadrado(s)' : ''), cls:'metric-retem' },
       { key:'verificar', label:'Verificar', value:verificarCount, sub:'análise manual', extra:'', cls:'metric-verificar' }
     ];
-
     html += '<div class="dashboard">';
     for(const card of cards){
       html += '<div class="metric-card ' + card.cls + (currentFilter === card.key ? ' active' : '') + '" data-filter="' + card.key + '">' +
@@ -1328,7 +1175,6 @@ function renderResults(results){
       '</div>';
     }
     html += '</div>';
-
     html += '<div class="subfilters">';
     html += '<button type="button" class="subfilter-btn' + (currentFilter === 'desenquadrado' ? ' active' : '') + '" data-filter="desenquadrado">Desenquadrados (' + desenquadradoCount + ')</button>';
     html += '</div>';
@@ -1341,25 +1187,26 @@ function renderResults(results){
   });
 
   html += '<div class="table-wrap"><table><thead><tr>' +
-    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>Situação no Simples Nacional</th><th>MEI</th><th>Retenção IRRF/CSRF</th>' +
+    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>Situação no Simples Nacional</th><th>MEI</th><th>IBS</th><th>CBS</th><th>Retenção IRRF/CSRF</th>' +
     '</tr></thead><tbody>';
 
   if(visiveis.length === 0){
-    html += '<tr><td colspan="6" style="color:var(--muted);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
+    html += '<tr><td colspan="8" style="color:var(--muted);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
   }
 
   for(const r of visiveis){
     if(r.error){
-      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td><td colspan="5">' + r.error + '</td></tr>';
+      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td><td colspan="7">' + r.error + '</td></tr>';
       continue;
     }
-
     html += '<tr>' +
       '<td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td>' +
       '<td><div class="razao">' + (r.razao_social || '—') + '</div><div class="sit">' + (r.situacao || '—') + '</div></td>' +
       '<td>' + badgeSimNao(r.simples, r.simplesInfo || r.manualCheck) + '</td>' +
       '<td>' + situacaoSimplesCell(r) + '</td>' +
       '<td>' + (r.manualCheck ? '<span class="badge na">—</span>' : badgeSimNao(r.mei, false)) + '</td>' +
+      '<td>' + badgeTexto(r.ibs) + '</td>' +
+      '<td>' + badgeTexto(r.cbs) + '</td>' +
       '<td>' + retencaoLabel(r) + '</td>' +
       '</tr>';
   }
@@ -1380,12 +1227,10 @@ function renderResults(results){
     html += '<button type="button" class="retry-btn" id="retryBtn">Tentar novamente (' + errorCount + ' com erro)</button>';
   }
 
-  html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI. Esta ferramenta fornece apoio à análise fiscal e não substitui a validação oficial do Simples Nacional nem a análise da natureza do serviço/operação. Empresas com exclusão histórica, mas optantes atuais, não são listadas em “Desenquadrados”.</div>';
-
+  html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI. Esta ferramenta fornece apoio à análise fiscal e não substitui a validação oficial do Simples Nacional, IBS/CBS nem a análise da natureza do serviço/operação. Empresas com exclusão histórica, mas optantes atuais, não são listadas em “Desenquadrados”.</div>';
   resultsArea.innerHTML = html;
   exportBtn.disabled = okCount === 0;
 }
-
 resultsArea.addEventListener('click', (e) => {
   const copyBtn = e.target.closest('.copy-btn');
   if(copyBtn){
@@ -1402,37 +1247,31 @@ resultsArea.addEventListener('click', (e) => {
     });
     return;
   }
-
   const metricCard = e.target.closest('.metric-card');
   if(metricCard){
     currentFilter = metricCard.getAttribute('data-filter');
     renderResults(lastResults);
     return;
   }
-
   const subfilterBtn = e.target.closest('.subfilter-btn');
   if(subfilterBtn){
     currentFilter = subfilterBtn.getAttribute('data-filter');
     renderResults(lastResults);
     return;
   }
-
   const retryBtn = e.target.closest('#retryBtn');
   if(retryBtn){
     retrySomenteErros();
   }
 });
-
 async function retrySomenteErros(){
   const indices = lastResults.map((r, i) => r.error ? i : -1).filter(i => i !== -1);
   if(indices.length === 0) return;
-
   consultarBtn.disabled = true;
   exportBtn.disabled = true;
   progressWrap.style.display = 'flex';
   progressText.textContent = '0 / ' + indices.length;
   progressFill.style.width = '0%';
-
   for(let k = 0; k < indices.length; k++){
     const i = indices[k];
     lastResults[i] = await consultarCnpj(lastResults[i].cnpj);
@@ -1441,25 +1280,20 @@ async function retrySomenteErros(){
     renderResults(lastResults);
     if(k < indices.length - 1) await sleep(350);
   }
-
   progressWrap.style.display = 'none';
   consultarBtn.disabled = false;
 }
-
 function toCsv(results){
-  const header = ['CNPJ','Razao Social','Situacao Cadastral','Optante Simples Nacional','Data Opcao Simples','Data Exclusao Simples','Optante MEI','Retencao IRRF/CSRF'];
+  const header = ['CNPJ','Razao Social','Situacao Cadastral','Optante Simples Nacional','Data Opcao Simples','Data Exclusao Simples','Optante MEI','Situacao IBS','Situacao CBS','Retencao IRRF/CSRF'];
   const rows = [header.join(';')];
-
   for(const r of results){
     if(r.error){
-      rows.push([formatCnpj(r.cnpj),'','','','','','','ERRO: ' + r.error].join(';'));
+      rows.push([formatCnpj(r.cnpj),'','','','','','','','','ERRO: ' + r.error].join(';'));
       continue;
     }
-
     const saida = (r.manualCheck || r.simplesInfo)
       ? 'Verificar manualmente'
       : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
-
     rows.push([
       formatCnpj(r.cnpj),
       '"' + String(r.razao_social || '').replace(/"/g,'""') + '"',
@@ -1468,30 +1302,26 @@ function toCsv(results){
       formatDateBR(r.dataOpcaoSimples) || '',
       formatDateBR(r.dataExclusaoSimples) || '',
       r.manualCheck ? '' : (r.mei ? 'Sim' : 'Nao'),
+      '"' + String(r.ibs || 'Não informado').replace(/"/g,'""') + '"',
+      '"' + String(r.cbs || 'Não informado').replace(/"/g,'""') + '"',
       saida
     ].join(';'));
   }
-
   return rows.join('\n');
 }
-
 consultarBtn.addEventListener('click', async () => {
   const list = parseCnpjList(cnpjInput.value);
-
   if(list.length === 0){
     resultsArea.innerHTML = '<div class="horizontal-note" style="background:#FEF2F2;color:#7F1D1D;border-color:#FECACA;">Cole ao menos um CNPJ para consultar.</div>';
     return;
   }
-
   consultarBtn.disabled = true;
   exportBtn.disabled = true;
   resultsArea.innerHTML = '';
   currentFilter = 'all';
-
   progressWrap.style.display = 'flex';
   progressText.textContent = '0 / ' + list.length;
   progressFill.style.width = '0%';
-
   const results = [];
   for(let i = 0; i < list.length; i++){
     const r = await consultarCnpj(list[i]);
@@ -1501,11 +1331,9 @@ consultarBtn.addEventListener('click', async () => {
     renderResults(results);
     if(i < list.length - 1) await sleep(350);
   }
-
   progressWrap.style.display = 'none';
   consultarBtn.disabled = false;
 });
-
 exportBtn.addEventListener('click', () => {
   const csv = toCsv(lastResults);
   const blob = new Blob(['\uFEFF' + csv], { type:'text/csv;charset=utf-8;' });
