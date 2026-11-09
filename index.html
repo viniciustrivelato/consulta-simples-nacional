@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tax Intelligence — V4 Final</title>
+<title>Fiscal Intelligence — V4 Final</title>
 <style>
   :root{
     --bg:#F8FAFC;
@@ -25,6 +25,7 @@
     --mono:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   }
+
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
@@ -35,7 +36,9 @@
     color:var(--text);
     padding:24px 16px 48px;
   }
+
   .app{max-width:1240px;margin:0 auto}
+
   .shell{
     background:rgba(255,255,255,.78);
     backdrop-filter:blur(10px);
@@ -44,6 +47,7 @@
     box-shadow:var(--shadow);
     overflow:hidden;
   }
+
   .hero{
     padding:28px 28px 24px;
     background:
@@ -51,12 +55,14 @@
       linear-gradient(135deg, #0F172A 0%, #172554 45%, #1D4ED8 100%);
     color:#fff;
   }
+
   .hero-top{
     display:grid;
     grid-template-columns:minmax(0,1fr) minmax(420px,540px);
     gap:18px;
     align-items:stretch;
   }
+
   .eyebrow{
     font-size:12px;
     font-weight:800;
@@ -65,12 +71,14 @@
     color:#BFDBFE;
     margin-bottom:10px;
   }
+
   .hero h1{
     margin:0;
     font-size:34px;
     line-height:1.08;
     letter-spacing:-.03em;
   }
+
   .hero p{
     margin:10px 0 0;
     max-width:760px;
@@ -78,12 +86,14 @@
     line-height:1.65;
     font-size:14px;
   }
+
   .chips{
     margin-top:16px;
     display:flex;
     gap:8px;
     flex-wrap:wrap;
   }
+
   .chip{
     border:1px solid rgba(255,255,255,.18);
     background:rgba(255,255,255,.10);
@@ -93,6 +103,7 @@
     font-size:12px;
     font-weight:700;
   }
+
   .hero-card{
     position:relative;
     min-height:100%;
@@ -105,6 +116,7 @@
       0 16px 30px rgba(15,23,42,.16);
     overflow:hidden;
   }
+
   .hero-card::after{
     content:'';
     position:absolute;
@@ -115,6 +127,7 @@
     background:radial-gradient(circle, rgba(255,255,255,.20), transparent 72%);
     pointer-events:none;
   }
+
   .hero-card .label{
     font-size:11px;
     font-weight:900;
@@ -123,6 +136,7 @@
     color:#D6E6FF;
     margin-bottom:14px;
   }
+
   .hero-card .status{
     display:flex;
     align-items:center;
@@ -131,14 +145,17 @@
     font-weight:800;
     color:#F8FAFC;
   }
+
   .hero-card .check{
     font-size:20px;
     line-height:1;
   }
+
   .hero-card .status-text{
     font-size:18px;
     color:#F8FAFC;
   }
+
   .hero-card .desc{
     margin-top:14px;
     color:#E6EEFF;
@@ -146,12 +163,14 @@
     line-height:1.65;
     max-width:95%;
   }
+
   .hero-outcomes{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
     margin-top:16px;
   }
+
   .hero-pill{
     display:inline-flex;
     align-items:center;
@@ -165,21 +184,25 @@
     font-weight:800;
     letter-spacing:.02em;
   }
+
   .hero-pill.nao-retem{
     background:rgba(34,197,94,.16);
     color:#B8F7CB;
     border-color:rgba(134,239,172,.30);
   }
+
   .hero-pill.retem{
     background:rgba(239,68,68,.14);
     color:#FFD1D1;
     border-color:rgba(252,165,165,.28);
   }
+
   .hero-pill.verificar{
     background:rgba(245,158,11,.14);
     color:#FFE3A3;
     border-color:rgba(252,211,77,.26);
   }
+
   .hero-flow{
     margin-top:16px;
     display:flex;
@@ -187,6 +210,7 @@
     gap:8px;
     flex-wrap:wrap;
   }
+
   .hero-step{
     padding:8px 12px;
     border-radius:999px;
@@ -197,12 +221,15 @@
     font-weight:900;
     letter-spacing:.02em;
   }
+
   .hero-arrow{
     color:#D8E8FF;
     font-weight:900;
     font-size:14px;
   }
+
   .content{padding:26px}
+
   .panel{
     background:var(--card);
     border:1px solid var(--border);
@@ -210,6 +237,7 @@
     padding:24px;
     box-shadow:0 1px 2px rgba(15,23,42,.03);
   }
+
   .section-kicker{
     font-size:12px;
     font-weight:800;
@@ -218,6 +246,7 @@
     color:var(--blue);
     margin-bottom:8px;
   }
+
   .section-title{
     margin:0;
     font-size:24px;
@@ -225,12 +254,14 @@
     letter-spacing:-.03em;
     color:var(--navy);
   }
+
   .section-subtitle{
     margin:8px 0 0;
     color:var(--muted);
     line-height:1.65;
     font-size:14px;
   }
+
   .grid{
     display:grid;
     grid-template-columns:minmax(0,1fr) minmax(720px,1fr);
@@ -238,12 +269,14 @@
     margin-top:22px;
     align-items:start;
   }
+
   .input-card,.side-card{
     border:1px solid var(--border);
     border-radius:20px;
     background:#fff;
     padding:18px;
   }
+
   .field-label{
     display:block;
     margin-bottom:10px;
@@ -251,6 +284,7 @@
     font-size:13px;
     font-weight:800;
   }
+
   textarea{
     width:100%;
     min-height:180px;
@@ -267,18 +301,21 @@
     word-break:normal;
     overflow-wrap:anywhere;
   }
+
   textarea:focus{
     outline:none;
     border-color:#93C5FD;
     box-shadow:0 0 0 4px rgba(37,99,235,.12);
     background:#fff;
   }
+
   .hint{
     margin-top:8px;
     color:var(--muted);
     font-size:12.5px;
     line-height:1.6;
   }
+
   .upload-divider{
     display:flex;
     align-items:center;
@@ -290,12 +327,14 @@
     letter-spacing:.14em;
     font-weight:800;
   }
+
   .upload-divider::before,.upload-divider::after{
     content:'';
     flex:1;
     height:1px;
     background:var(--border);
   }
+
   .upload-box{
     display:block;
     border:1.5px dashed #93A7C7;
@@ -305,16 +344,19 @@
     cursor:pointer;
     transition:.18s ease;
   }
+
   .upload-box:hover{
     border-color:var(--blue);
     background:linear-gradient(180deg,#EFF6FF 0%, #E7F0FF 100%);
   }
+
   .upload-title{
     display:block;
     color:var(--navy);
     font-size:14px;
     font-weight:800;
   }
+
   .upload-sub{
     display:block;
     margin-top:6px;
@@ -322,6 +364,7 @@
     font-size:12.5px;
     line-height:1.5;
   }
+
   .file-status{
     margin-top:10px;
     font-size:12.5px;
@@ -329,6 +372,7 @@
   }
   .file-status.ok{color:var(--success)}
   .file-status.warn{color:var(--danger)}
+
   .actions{
     margin-top:18px;
     display:flex;
@@ -336,6 +380,7 @@
     align-items:center;
     flex-wrap:wrap;
   }
+
   button{
     appearance:none;
     border:none;
@@ -347,21 +392,26 @@
     transition:.18s ease;
   }
   button:disabled{opacity:.5;cursor:not-allowed}
+
   #consultarBtn{
     background:linear-gradient(135deg,var(--blue),var(--blue-2));
     color:#fff;
     box-shadow:0 8px 18px rgba(37,99,235,.25);
   }
+
   #consultarBtn:hover:not(:disabled){
     transform:translateY(-1px);
     filter:brightness(1.03);
   }
+
   #exportBtn{
     background:#fff;
     color:var(--navy);
     border:1px solid var(--border);
   }
+
   #exportBtn:hover:not(:disabled){background:#F8FAFC}
+
   .progress-wrap{
     display:none;
     align-items:center;
@@ -370,6 +420,7 @@
     font-size:12px;
     font-family:var(--mono);
   }
+
   .progress-bar{
     width:200px;
     height:8px;
@@ -377,23 +428,27 @@
     overflow:hidden;
     background:#E2E8F0;
   }
+
   .progress-fill{
     width:0%;
     height:100%;
     background:linear-gradient(90deg,#2563EB,#0EA5E9);
     transition:width .2s ease;
   }
+
   .system-box{
     display:flex;
     flex-direction:column;
     gap:16px;
   }
+
   .system-head{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     gap:12px;
   }
+
   .system-kicker{
     font-size:12px;
     font-weight:900;
@@ -401,6 +456,7 @@
     text-transform:uppercase;
     color:var(--muted);
   }
+
   .system-title{
     margin-top:6px;
     font-size:18px;
@@ -408,6 +464,7 @@
     font-weight:900;
     color:var(--navy);
   }
+
   .system-icon{
     width:40px;
     height:40px;
@@ -419,17 +476,20 @@
     font-weight:900;
     flex:none;
   }
+
   .system-text{
     font-size:13px;
     line-height:1.7;
     color:var(--muted);
   }
+
   .trust-flow{
     display:grid;
     grid-template-columns:repeat(4, minmax(140px, 1fr));
     gap:10px;
     align-items:stretch;
   }
+
   .flow-card{
     border:1px solid var(--border);
     border-radius:16px;
@@ -439,6 +499,7 @@
     display:flex;
     flex-direction:column;
   }
+
   .flow-card .num{
     font-size:11px;
     font-weight:900;
@@ -447,6 +508,7 @@
     color:var(--blue);
     margin-bottom:8px;
   }
+
   .flow-card .ttl{
     font-size:11px;
     font-weight:900;
@@ -454,12 +516,14 @@
     margin-bottom:8px;
     line-height:1.35;
   }
+
   .flow-card .txt{
     font-size:11px;
     line-height:1.55;
     color:var(--muted);
     flex:1;
   }
+
   .system-outcomes{
     border-top:1px dashed var(--border);
     padding-top:14px;
@@ -467,7 +531,9 @@
     line-height:1.75;
     color:var(--muted);
   }
+
   .system-outcomes b{color:var(--navy)}
+
   .criteria-box{
     border-top:1px solid var(--border);
     padding-top:16px;
@@ -475,12 +541,14 @@
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:12px;
   }
+
   .criteria-card{
     border:1px solid var(--border);
     border-radius:16px;
     padding:14px;
     background:linear-gradient(180deg,#F8FBFF 0%, #FFFFFF 100%);
   }
+
   .criteria-label{
     font-size:11px;
     font-weight:900;
@@ -489,6 +557,7 @@
     color:var(--blue);
     margin-bottom:8px;
   }
+
   .criteria-title{
     font-size:13px;
     font-weight:900;
@@ -496,11 +565,13 @@
     margin-bottom:6px;
     line-height:1.4;
   }
+
   .criteria-text{
     font-size:12px;
     line-height:1.65;
     color:var(--muted);
   }
+
   .horizontal-note{
     margin-top:18px;
     border:1px solid #FDE68A;
@@ -511,13 +582,17 @@
     font-size:13px;
     line-height:1.8;
   }
+
   .horizontal-note strong{color:#8A5A05}
+
   .results-block{margin-top:24px}
+
   .dashboard{
     display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));
     gap:14px;
   }
+
   .metric-card{
     background:#fff;
     border:1px solid var(--border);
@@ -528,16 +603,19 @@
     transition:.18s ease;
     box-shadow:0 1px 2px rgba(15,23,42,.03);
   }
+
   .metric-card:hover{
     transform:translateY(-1px);
     border-color:#BFD1F5;
     box-shadow:0 10px 24px rgba(37,99,235,.08);
   }
+
   .metric-card.active{
     border-color:#1E3A8A;
     box-shadow:inset 0 0 0 1px #1E3A8A, 0 10px 24px rgba(37,99,235,.08);
     background:linear-gradient(180deg,#FFFFFF 0%, #F8FBFF 100%);
   }
+
   .metric-label{
     font-size:11px;
     font-weight:900;
@@ -545,6 +623,7 @@
     text-transform:uppercase;
     color:var(--muted);
   }
+
   .metric-value{
     margin-top:18px;
     font-size:48px;
@@ -552,28 +631,33 @@
     letter-spacing:-.04em;
     font-weight:900;
   }
+
   .metric-sub{
     margin-top:8px;
     color:var(--muted);
     font-size:12.5px;
     line-height:1.45;
   }
+
   .metric-extra{
     margin-top:8px;
     font-size:12px;
     color:var(--muted);
     font-weight:700;
   }
+
   .metric-all .metric-value{color:#2563EB}
   .metric-nao-retem .metric-value{color:var(--success)}
   .metric-retem .metric-value{color:var(--danger)}
   .metric-verificar .metric-value{color:var(--warning)}
+
   .subfilters{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
     margin-top:16px;
   }
+
   .subfilter-btn{
     border:1px solid var(--border);
     background:#fff;
@@ -585,16 +669,19 @@
     cursor:pointer;
     transition:.18s ease;
   }
+
   .subfilter-btn:hover{
     border-color:#BFD1F5;
     color:var(--navy);
     background:#F8FBFF;
   }
+
   .subfilter-btn.active{
     border-color:#1E3A8A;
     color:#1E3A8A;
     background:#EEF4FF;
   }
+
   .table-wrap{
     margin-top:18px;
     overflow:auto;
@@ -602,11 +689,13 @@
     border-radius:22px;
     background:#fff;
   }
+
   table{
     width:100%;
-    min-width:1180px;
+    min-width:980px;
     border-collapse:collapse;
   }
+
   thead th{
     text-align:left;
     padding:14px 16px;
@@ -618,28 +707,34 @@
     background:#F8FAFC;
     border-bottom:1px solid var(--border);
   }
+
   tbody td{
     padding:16px;
     border-bottom:1px solid #EEF2F7;
     vertical-align:top;
     font-size:13.5px;
   }
+
   tbody tr:hover{background:#FAFCFF}
+
   .cnpj-cell{
     font-family:var(--mono);
     white-space:nowrap;
     color:var(--navy);
     font-weight:700;
   }
+
   .razao{
     font-weight:900;
     color:var(--navy);
     margin-bottom:4px;
   }
+
   .sit{
     color:var(--muted);
     font-size:12px;
   }
+
   .badge{
     display:inline-block;
     padding:6px 10px;
@@ -648,14 +743,17 @@
     font-weight:800;
     white-space:nowrap;
   }
+
   .badge.sim{background:var(--success-bg);color:var(--success)}
   .badge.nao{background:var(--danger-bg);color:var(--danger)}
   .badge.na{background:#E2E8F0;color:#475569}
+
   .status-note{
     font-size:12px;
     line-height:1.6;
     font-weight:700;
   }
+
   .status-note.neutral{color:var(--muted)}
   .status-note.positive{
     color:var(--success);
@@ -666,40 +764,14 @@
   }
   .status-note.negative{color:var(--danger)}
   .status-note.warning{color:var(--warning)}
-  .reten{
-    font-weight:900;
-    font-size:13px;
-  }
-  .nao-reter{color:var(--success)}
-  .reter{color:var(--danger)}
-  .verificar{color:var(--warning)}
-  .copy-btn{
-    display:inline-block;
-    margin-top:8px;
-    padding:7px 10px;
-    border-radius:10px;
-    background:#fff;
-    border:1px solid var(--border);
-    color:var(--muted);
-    font-size:11px;
-    font-weight:800;
-    cursor:pointer;
-  }
-  .copy-btn:hover{
-    color:var(--blue);
-    border-color:#93C5FD;
-  }
-  .copy-btn.copied{
-    color:var(--success);
-    border-color:#86EFAC;
-    background:#F0FDF4;
-  }
+
   .err-row td{
     color:var(--danger);
     font-style:italic;
     white-space:normal;
     word-break:break-word;
   }
+
   .summary{
     margin-top:16px;
     display:flex;
@@ -708,14 +780,18 @@
     color:var(--muted);
     font-size:12.5px;
   }
+
   .summary b{color:var(--navy)}
+
   .retry-btn{
     margin-top:14px;
     background:#fff;
     color:var(--danger);
     border:1px solid #FCA5A5;
   }
+
   .retry-btn:hover:not(:disabled){background:#FEF2F2}
+
   .footer-note{
     margin-top:18px;
     padding-top:16px;
@@ -724,6 +800,7 @@
     font-size:12px;
     line-height:1.75;
   }
+
   .credit{
     text-align:center;
     margin-top:16px;
@@ -731,6 +808,7 @@
     color:var(--muted);
     font-family:var(--mono);
   }
+
   @media (max-width:1180px){
     .hero-top{grid-template-columns:1fr}
     .dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -738,6 +816,7 @@
     .trust-flow{grid-template-columns:repeat(2,minmax(0,1fr))}
     .criteria-box{grid-template-columns:1fr}
   }
+
   @media (max-width:640px){
     body{padding:14px 10px 36px}
     .hero{padding:20px 18px}
@@ -759,14 +838,12 @@
           <div>
             <div class="eyebrow">Tax Intelligence</div>
             <h1>Consulta em Lote — Simples Nacional</h1>
-            <p>Analise CNPJs em lote e obtenha uma indicação inicial sobre enquadramento no Simples Nacional, MEI, IBS, CBS e tratamento indicativo de IRRF/CSRF.</p>
+            <p>Analise CNPJs em lote e identifique indícios de enquadramento no Simples Nacional, MEI, IBS e CBS.</p>
             <div class="chips">
               <span class="chip">Simples Nacional</span>
               <span class="chip">MEI</span>
               <span class="chip">IBS</span>
               <span class="chip">CBS</span>
-              <span class="chip">IRRF</span>
-              <span class="chip">CSRF</span>
             </div>
           </div>
           <div class="hero-card">
@@ -779,8 +856,8 @@
               Classificação automatizada com base em dados cadastrais públicos e regras fiscais tratadas na ferramenta.
             </div>
             <div class="hero-outcomes">
-              <span class="hero-pill nao-retem">Não retém</span>
-              <span class="hero-pill retem">Retém</span>
+              <span class="hero-pill nao-retem">Simples Nacional</span>
+              <span class="hero-pill retem">Não optante do Simples Nacional</span>
               <span class="hero-pill verificar">Verificar</span>
             </div>
             <div class="hero-flow">
@@ -847,7 +924,7 @@
                   <div class="flow-card">
                     <div class="num">03 · Análise</div>
                     <div class="ttl">Classificação</div>
-                    <div class="txt">Aplica a lógica fiscal do sistema para separar Não retém, Retém ou Verificar.</div>
+                    <div class="txt">Aplica a lógica fiscal do sistema para separar Simples Nacional, Não optante do Simples Nacional ou Verificar.</div>
                   </div>
                   <div class="flow-card">
                     <div class="num">04 · Resultado</div>
@@ -857,8 +934,8 @@
                 </div>
                 <div class="system-outcomes">
                   <b>Saídas possíveis:</b>
-                  <span style="color:var(--success);font-weight:800;">Não retém</span> para indício de dispensa nas hipóteses tratadas;
-                  <span style="color:var(--danger);font-weight:800;">Retém</span> para ausência de enquadramento identificador de dispensa;
+                  <span style="color:var(--success);font-weight:800;">Simples Nacional</span> para empresas enquadradas;
+                  <span style="color:var(--danger);font-weight:800;">Não optante do Simples Nacional</span> para empresas fora do enquadramento;
                   <span style="color:var(--warning);font-weight:800;">Verificar</span> para informação insuficiente, conflito cadastral ou conferência manual.
                 </div>
                 <div class="criteria-box">
@@ -890,7 +967,6 @@
     </div>
     <div class="credit">Desenvolvido por Vinicius Trivelato de Oliveira</div>
   </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const consultarBtn = document.getElementById('consultarBtn');
@@ -902,7 +978,6 @@ const progressText = document.getElementById('progressText');
 const progressFill = document.getElementById('progressFill');
 const fileInput = document.getElementById('fileInput');
 const fileStatus = document.getElementById('fileStatus');
-
 let lastResults = [];
 let currentFilter = 'all';
 
@@ -1054,7 +1129,6 @@ async function consultarCnpj(cnpj){
   if(clean.length !== 14){
     return { cnpj: clean, error: 'CNPJ inválido (deve conter 14 caracteres válidos).' };
   }
-
   if(hasLetters(clean)){
     return {
       cnpj: clean,
@@ -1070,22 +1144,18 @@ async function consultarCnpj(cnpj){
       cbs: 'Não informado'
     };
   }
-
   if(!cnpjValido(clean)){
     return { cnpj: clean, error: 'Dígito verificador inválido — confira se o CNPJ foi digitado/copiado corretamente.' };
   }
-
   try{
     const res = await fetch('https://brasilapi.com.br/api/cnpj/v1/' + clean);
     if(res.status === 404) return { cnpj: clean, error: 'CNPJ não encontrado na base da Receita.' };
     if(res.status === 400) return { cnpj: clean, error: 'CNPJ rejeitado pela API (HTTP 400).' };
     if(!res.ok) return { cnpj: clean, error: 'Erro na consulta (HTTP ' + res.status + ').' };
-
     const data = await res.json();
     const simples = data.opcao_pelo_simples === true;
     const simplesInfo = data.opcao_pelo_simples === null || data.opcao_pelo_simples === undefined;
     const mei = data.opcao_pelo_mei === true;
-
     return {
       cnpj: clean,
       razao_social: data.razao_social || '—',
@@ -1133,36 +1203,24 @@ function badgeTexto(val){
   if(t.includes('não')) return '<span class="badge nao">' + val + '</span>';
   return '<span class="badge na">' + val + '</span>';
 }
-function retencaoLabel(r){
-  if(r.error) return '—';
-  if(r.manualCheck || r.simplesInfo){
-    return '<span class="reten verificar">Verificar manualmente</span>' +
-      '<button class="copy-btn" data-cnpj="' + r.cnpj + '" title="Copiar CNPJ">Copiar CNPJ</button>';
-  }
-  return (r.simples || r.mei)
-    ? '<span class="reten nao-reter">Não retém</span>'
-    : '<span class="reten reter">Retém</span>';
-}
 function renderResults(results){
   lastResults = results;
   const okCount = results.filter(r => !r.error).length;
-  const naoRetemCount = results.filter(r => categoryOf(r) === 'nao-retem').length;
-  const retemCount = results.filter(r => categoryOf(r) === 'retem').length;
+  const simplesCount = results.filter(r => categoryOf(r) === 'nao-retem').length;
+  const naoOptanteCount = results.filter(r => categoryOf(r) === 'retem').length;
   const verificarCount = results.filter(r => categoryOf(r) === 'verificar').length;
   const errorCount = results.filter(r => r.error).length;
   const desenquadradoCount = results.filter(r => isCurrentDesenquadrado(r)).length;
-
   if(!['all','nao-retem','retem','verificar','desenquadrado'].includes(currentFilter)){
     currentFilter = 'all';
   }
   if(currentFilter === 'desenquadrado' && desenquadradoCount === 0) currentFilter = 'all';
-
   let html = '';
   if(results.length > 0){
     const cards = [
       { key:'all', label:'Consultados', value:results.length, sub:'empresas analisadas', extra:'', cls:'metric-all' },
-      { key:'nao-retem', label:'Não retém', value:naoRetemCount, sub:'dispensa indicativa', extra:'', cls:'metric-nao-retem' },
-      { key:'retem', label:'Retém', value:retemCount, sub:'retenção indicativa', extra:(desenquadradoCount ? desenquadradoCount + ' desenquadrado(s)' : ''), cls:'metric-retem' },
+      { key:'nao-retem', label:'Simples Nacional', value:simplesCount, sub:'empresas enquadradas', extra:'', cls:'metric-nao-retem' },
+      { key:'retem', label:'Não optante do Simples Nacional', value:naoOptanteCount, sub:'empresas fora do enquadramento', extra:(desenquadradoCount ? desenquadradoCount + ' desenquadrado(s)' : ''), cls:'metric-retem' },
       { key:'verificar', label:'Verificar', value:verificarCount, sub:'análise manual', extra:'', cls:'metric-verificar' }
     ];
     html += '<div class="dashboard">';
@@ -1179,24 +1237,20 @@ function renderResults(results){
     html += '<button type="button" class="subfilter-btn' + (currentFilter === 'desenquadrado' ? ' active' : '') + '" data-filter="desenquadrado">Desenquadrados (' + desenquadradoCount + ')</button>';
     html += '</div>';
   }
-
   const visiveis = results.filter(r => {
     if(currentFilter === 'all') return true;
     if(currentFilter === 'desenquadrado') return isCurrentDesenquadrado(r);
     return categoryOf(r) === currentFilter;
   });
-
   html += '<div class="table-wrap"><table><thead><tr>' +
-    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>Situação no Simples Nacional</th><th>MEI</th><th>IBS</th><th>CBS</th><th>Retenção IRRF/CSRF</th>' +
+    '<th>CNPJ</th><th>Razão social</th><th>Simples Nacional</th><th>Situação no Simples Nacional</th><th>MEI</th><th>IBS</th><th>CBS</th>' +
     '</tr></thead><tbody>';
-
   if(visiveis.length === 0){
-    html += '<tr><td colspan="8" style="color:var(--muted);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
+    html += '<tr><td colspan="7" style="color:var(--muted);font-style:italic;">Nenhum resultado nesse filtro.</td></tr>';
   }
-
   for(const r of visiveis){
     if(r.error){
-      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td><td colspan="7">' + r.error + '</td></tr>';
+      html += '<tr class="err-row"><td class="cnpj-cell">' + formatCnpj(r.cnpj) + '</td><td colspan="6">' + r.error + '</td></tr>';
       continue;
     }
     html += '<tr>' +
@@ -1207,46 +1261,26 @@ function renderResults(results){
       '<td>' + (r.manualCheck ? '<span class="badge na">—</span>' : badgeSimNao(r.mei, false)) + '</td>' +
       '<td>' + badgeTexto(r.ibs) + '</td>' +
       '<td>' + badgeTexto(r.cbs) + '</td>' +
-      '<td>' + retencaoLabel(r) + '</td>' +
       '</tr>';
   }
-
   html += '</tbody></table></div>';
-
   html += '<div class="summary">' +
     '<span><b>' + results.length + '</b> consultados</span>' +
     '<span><b>' + okCount + '</b> processados</span>' +
-    '<span><b>' + naoRetemCount + '</b> não retêm</span>' +
-    '<span><b>' + retemCount + '</b> retêm</span>' +
+    '<span><b>' + simplesCount + '</b> Simples Nacional</span>' +
+    '<span><b>' + naoOptanteCount + '</b> não optantes do Simples Nacional</span>' +
     '<span><b>' + verificarCount + '</b> verificar</span>' +
-    (desenquadradoCount ? '<span><b>' + desenquadradoCount + '</b> desenquadrados (subgrupo de retém)</span>' : '') +
+    (desenquadradoCount ? '<span><b>' + desenquadradoCount + '</b> desenquadrados (subgrupo de não optantes)</span>' : '') +
     (errorCount ? '<span><b>' + errorCount + '</b> com erro</span>' : '') +
     '</div>';
-
   if(errorCount > 0){
     html += '<button type="button" class="retry-btn" id="retryBtn">Tentar novamente (' + errorCount + ' com erro)</button>';
   }
-
   html += '<div class="footer-note">Dados obtidos da base pública de CNPJ (Receita Federal), via BrasilAPI. Esta ferramenta fornece apoio à análise fiscal e não substitui a validação oficial do Simples Nacional, IBS/CBS nem a análise da natureza do serviço/operação. Empresas com exclusão histórica, mas optantes atuais, não são listadas em “Desenquadrados”.</div>';
   resultsArea.innerHTML = html;
   exportBtn.disabled = okCount === 0;
 }
 resultsArea.addEventListener('click', (e) => {
-  const copyBtn = e.target.closest('.copy-btn');
-  if(copyBtn){
-    const cnpj = formatCnpj(copyBtn.getAttribute('data-cnpj'));
-    navigator.clipboard.writeText(cnpj).then(() => {
-      copyBtn.textContent = 'Copiado!';
-      copyBtn.classList.add('copied');
-      setTimeout(() => {
-        copyBtn.textContent = 'Copiar CNPJ';
-        copyBtn.classList.remove('copied');
-      }, 1500);
-    }).catch(() => {
-      copyBtn.textContent = 'Erro ao copiar';
-    });
-    return;
-  }
   const metricCard = e.target.closest('.metric-card');
   if(metricCard){
     currentFilter = metricCard.getAttribute('data-filter');
@@ -1284,16 +1318,16 @@ async function retrySomenteErros(){
   consultarBtn.disabled = false;
 }
 function toCsv(results){
-  const header = ['CNPJ','Razao Social','Situacao Cadastral','Optante Simples Nacional','Data Opcao Simples','Data Exclusao Simples','Optante MEI','Situacao IBS','Situacao CBS','Retencao IRRF/CSRF'];
+  const header = ['CNPJ','Razao Social','Situacao Cadastral','Optante Simples Nacional','Data Opcao Simples','Data Exclusao Simples','Optante MEI','Situacao IBS','Situacao CBS','Classificacao'];
   const rows = [header.join(';')];
   for(const r of results){
     if(r.error){
       rows.push([formatCnpj(r.cnpj),'','','','','','','','','ERRO: ' + r.error].join(';'));
       continue;
     }
-    const saida = (r.manualCheck || r.simplesInfo)
-      ? 'Verificar manualmente'
-      : ((r.simples || r.mei) ? 'Nao retem' : 'Retem');
+    const classificacao = (r.manualCheck || r.simplesInfo)
+      ? 'Verificar'
+      : ((r.simples || r.mei) ? 'Simples Nacional' : 'Nao optante do Simples Nacional');
     rows.push([
       formatCnpj(r.cnpj),
       '"' + String(r.razao_social || '').replace(/"/g,'""') + '"',
@@ -1304,7 +1338,7 @@ function toCsv(results){
       r.manualCheck ? '' : (r.mei ? 'Sim' : 'Nao'),
       '"' + String(r.ibs || 'Não informado').replace(/"/g,'""') + '"',
       '"' + String(r.cbs || 'Não informado').replace(/"/g,'""') + '"',
-      saida
+      classificacao
     ].join(';'));
   }
   return rows.join('\n');
